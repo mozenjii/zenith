@@ -71,7 +71,11 @@ export function Hero() {
           <h1 className="display-hero mt-7 text-[clamp(3.2rem,9.5vw,7rem)]">
             Mohib
             <br />
-            Ahmad
+            {/* The surname in red. At this size it is the largest area of
+                colour on the site and the reason red reads as the identity
+                rather than as button trim. Carried over from the previous
+                build, which set "AHMAD." the same way. */}
+            <span className="text-[var(--red)]">Ahmad</span>
           </h1>
 
           <p className="mt-8 max-w-[42ch] text-[clamp(1.125rem,1.8vw,1.4375rem)] leading-[1.45] text-[var(--text)]">

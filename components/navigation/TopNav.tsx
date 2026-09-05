@@ -63,7 +63,7 @@ export function TopNav() {
               key={item.href}
               href={item.href}
               aria-current={isActive(item.href) ? "page" : undefined}
-              className={`nav-link ${isActive(item.href) ? "text-[var(--text)]" : "text-[var(--text-mute)] hover:text-[var(--text)]"}`}
+              className={`nav-link ${isActive(item.href) ? "text-[var(--red)]" : "text-[var(--text-mute)] hover:text-[var(--text)]"}`}
             >
               {item.label}
             </Link>
@@ -97,7 +97,7 @@ export function TopNav() {
               aria-current={isActive(item.href) ? "page" : undefined}
               onClick={() => setOpen(false)}
               className={`block border-b border-[var(--line)] py-4 font-mono text-sm ${
-                isActive(item.href) ? "text-[var(--accent)]" : "text-[var(--text-dim)]"
+                isActive(item.href) ? "text-[var(--red)]" : "text-[var(--text-dim)]"
               }`}
             >
               {item.label}

@@ -129,7 +129,7 @@ export function petersenScene(): SceneInstance {
     }
     segments.sort((a, b) => b.z - a.z);
 
-    const { paper, cyan, yellow } = state.palette;
+    const { paper, red, yellow } = state.palette;
     for (const seg of segments) {
       // Nearer edges are brighter and heavier; this is the whole depth cue.
       const near = 1 - (seg.z + 1) / 2;
@@ -138,7 +138,7 @@ export function petersenScene(): SceneInstance {
         ctx.strokeStyle = withAlpha(paper, fade * 0.68);
         ctx.lineWidth = 0.7 + near * 0.9;
       } else if (seg.kind === 1) {
-        ctx.strokeStyle = withAlpha(cyan, fade * 0.34);
+        ctx.strokeStyle = withAlpha(red, fade * 0.5);
         ctx.lineWidth = 0.5 + near * 0.5;
       } else {
         // The inner step-3 chords are the structure the theorem acts on.
@@ -188,7 +188,7 @@ export function petersenScene(): SceneInstance {
       const x = cx + Math.cos(a) * r;
       const y = cy + Math.sin(a) * r;
       const carries = k % Math.max(1, Math.round(n / 8)) === 0;
-      ctx.fillStyle = withAlpha(carries ? state.palette.red : state.palette.paper, (carries ? 0.5 : 0.15) * alpha);
+      ctx.fillStyle = withAlpha(carries ? state.palette.red : state.palette.paper, (carries ? 0.7 : 0.15) * alpha);
       ctx.beginPath();
       ctx.arc(x, y, carries ? 2.1 : 1.1, 0, Math.PI * 2);
       ctx.fill();

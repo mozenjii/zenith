@@ -26,7 +26,10 @@ export function SiteFooter() {
       <div className="mx-auto max-w-[1240px]">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <p className="display text-[1.75rem] text-[var(--text)]">Mohib Ahmad</p>
+            <span className="mark mb-5 block bg-[var(--red)]" aria-hidden />
+            <p className="display text-[1.75rem] text-[var(--text)]">
+              Mohib <span className="text-[var(--red)]">Ahmad</span>
+            </p>
             <p className="mt-3 text-sm leading-7 text-[var(--text-dim)]">
               {profile.role}
             </p>

@@ -29,7 +29,7 @@ the *mannerisms* are dropped. What replaces them is typographic structure: a rea
 type scale, rules instead of borders, and hairlines instead of offsets. The result
 still reads as an engineer's site, and now also holds a proof.
 
-**Kept from the old system:** the charcoal surface ladder, the three accents, the
+**Kept from the old system:** the charcoal surface ladder, the red/yellow accents, the
 monospace label role, `SignalField`'s canvas host, and the project data doctrine
 (every claim traces to an artifact).
 
@@ -47,46 +47,75 @@ query — this site is dark-only by deliberate choice, and the palette is commit
 
 | Token | Value | Use |
 | --- | --- | --- |
-| `--bg` | `#08090a` | Page ground |
-| `--surface` | `#0e1011` | Header, footer, alternating sections |
-| `--panel` | `#14171a` | Cards, panels |
-| `--panel-high` | `#1c2024` | Raised panel, input wells |
-| `--line` | `#252a30` | Hairline rules and borders |
-| `--line-bright` | `#39414a` | Hover/active rules |
+| `--bg` | `#0a0a0a` | Page ground |
+| `--surface` | `#111113` | Header, footer, alternating sections |
+| `--panel` | `#16171a` | Cards, panels |
+| `--panel-high` | `#1e2024` | Raised panel, input wells |
+| `--line` | `#26282d` | Hairline rules and borders |
+| `--line-bright` | `#3a3d44` | Hover/active rules |
+
+`--background` and `--paper` are duplicated as literal hex for the canvas
+scenes, which read tokens back with `getComputedStyle()` and cannot parse a
+`var()` reference. Keep them in step with `--bg` and `--text` by hand.
 
 ### Text
 
 | Token | Value | Contrast on `--bg` | Use |
 | --- | --- | --- | --- |
-| `--text` | `#f4f1ec` | 16.4:1 | Body and headings |
-| `--text-dim` | `#b8b2a9` | 8.9:1 | Secondary prose |
-| `--text-mute` | `#8a857e` | 5.2:1 | Labels ≥12px, metadata |
+| `--text` | `#fffaf3` | 18.9:1 | Body and headings |
+| `--text-dim` | `#cfc7bd` | 12.1:1 | Secondary prose |
+| `--text-mute` | `#a09a92` | 7.0:1 | Labels ≥12px, metadata |
 
 `--text-mute` is the floor. Anything below 5:1 does not ship, and `--text-mute` is
 never used under 12px.
 
 ### Accents
 
-| Token | Value | Meaning |
-| --- | --- | --- |
-| `--accent` | `#5ad0c4` | Primary action, links, live/verified state |
-| `--warm` | `#e8a33d` | Research and mathematics |
-| `--alert` | `#e5533d` | Emphasis, current position marker |
+| Token | Value | Meaning | Contrast on `--bg` |
+| --- | --- | --- | --- |
+| `--red` | `#ff4938` | The site's color. Identity, actions, links, anything built | 5.88:1 |
+| `--yellow` | `#ffcf4a` | Research, mathematics, foundations, academic results | 11.4:1 |
+| `--cyan` | `#64d8ff` | Retired. Token kept only for the unused canvas scenes | 10.3:1 |
 
-**Accent rule:** accents carry *meaning*, never mood. `--warm` means "this is the
-research thread". `--accent` means "this is actionable or verified". An accent used
-because a section looked flat is a bug.
+**Two colors, not three.** Cyan was originally the primary and split the accent
+budget three ways, which meant red never accumulated enough presence on any
+one screen to read as the site's color — the entire point of having one. It is
+retired from the interface.
 
-Accents are used as ink on dark surfaces, or as a fill behind `--bg`-coloured text.
-Never accent text on an accent fill.
+**Accents carry meaning, never mood.** Yellow means "this is the research
+thread". Red means everything else that matters. An accent used because a
+section looked flat is a bug.
+
+**Where red has to appear.** Red is not button trim; it is the identity. It
+must be present on every screen, which in practice means:
+
+- the surname in the hero `<h1>`, which is the largest area of color on the site
+- a `.mark` rule above every section title
+- the active navigation item
+- every category mark on a project card except research and foundations
+- the primary button, and link hover
+- the spokes of the P(n,3) instrument
+
+**Area versus frequency.** Increase how often red recurs, not how much surface
+it covers. `#ff4938` is saturated, and large red fills on near-black vibrate
+and hurt reading. Red as ink, rules and small fills; never as a page-sized
+background.
+
+Accents are used as ink on dark surfaces, or as a fill behind `--bg`-colored
+text. Never accent text on an accent fill.
 
 ### Type
 
 - **Display** — `Instrument Serif`. Headings only, ≥28px. Carries the editorial
   register and gives the mathematics somewhere to sit.
-- **Body** — `Hanken Grotesk`. Prose, UI.
-- **Mono** — `JetBrains Mono`. Labels, metrics, code, and all mathematical
-  notation rendered as text.
+- **Body** — `Geist`. Prose, UI.
+- **Mono** — `Geist Mono`. Labels, metrics, code, and all mathematical notation
+  rendered as text.
+
+All three are drawn from the target lists in the `minimalist-ui` skill, which
+also rules out Inter, Roboto and Open Sans by name. Geist and Geist Mono are
+one family, so numerals align between a label and the metric beneath it. Do
+not substitute a face that is not on those lists.
 
 Scale: 12 / 14 / 16 / 18 / 21 / 28 / 38 / 52 / 72 / 96. Headings use
 `text-wrap: balance`, prose uses `text-wrap: pretty`.
@@ -104,7 +133,7 @@ text. `M(P(n,3)) = Z(P(n,3)) = 8` must survive being copied out of the page.
 
 ### Focus
 
-`2px solid var(--accent)` at `2px` offset, on every interactive element, never
+`2px solid var(--red)` at `2px` offset, on every interactive element, never
 removed. Focus is visible on all six surface levels.
 
 ## Motion
@@ -130,7 +159,10 @@ certificate polynomial.
 
 This is the one piece of expensive motion on the site, and it earns its place by
 being *the content*: it is the actual object of the theorem, with the actual
-certificate moduli (10, 24, 40, 42) cycling through it.
+certificate moduli cycling through it — 10, 24, 28 and 42, the four
+divisibility families the paper actually covers. (10, 24, 40 and 42 are the
+*rational* moduli, which is a different set; 28 is covered but not rational,
+and 40 is rational but not a covered family. Do not conflate them.)
 
 Rules it must obey:
 

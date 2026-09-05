@@ -37,6 +37,11 @@ export function Section({
       aria-labelledby={id ? `${id}-title` : undefined}
     >
       <div className="mx-auto max-w-[1240px]">
+        {/* A red rule above every section title. Cheap, structural, and it
+            puts the accent on every screen of the site rather than only the
+            ones with a button. */}
+        <span className="mark mb-6 block bg-[var(--red)]" aria-hidden />
+
         <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3">
           <h2 id={id ? `${id}-title` : undefined} className="display text-[2rem] sm:text-[2.5rem]">
             {title}
