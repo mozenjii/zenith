@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TECH_PORTFOLIO_V1 // FOUNDER_MEMO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&amp;family=Hanken+Grotesk:wght@400;500&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "surface-container-highest": "#353438",
+                        "surface": "#131316",
+                        "on-primary": "#3c0091",
+                        "on-secondary-fixed": "#131f00",
+                        "surface-bright": "#39393c",
+                        "inverse-primary": "#6d3bd7",
+                        "outline": "#958ea0",
+                        "on-primary-fixed-variant": "#5516be",
+                        "error-container": "#93000a",
+                        "primary-fixed-dim": "#d0bcff",
+                        "primary": "#d0bcff",
+                        "surface-container-low": "#1b1b1e",
+                        "primary-container": "#a078ff",
+                        "secondary-fixed": "#bff365",
+                        "primary-fixed": "#e9ddff",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-secondary-fixed-variant": "#354e00",
+                        "inverse-on-surface": "#303033",
+                        "background": "#131316",
+                        "on-primary-fixed": "#23005c",
+                        "outline-variant": "#494454",
+                        "on-secondary": "#233600",
+                        "on-primary-container": "#340080",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-tertiary": "#2f3131",
+                        "surface-tint": "#d0bcff",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#353438",
+                        "on-secondary-container": "#1e2f00",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-container": "#282a2a",
+                        "on-surface": "#e4e1e6",
+                        "secondary-fixed-dim": "#a4d64c",
+                        "on-surface-variant": "#cbc3d7",
+                        "surface-dim": "#131316",
+                        "tertiary": "#c6c6c7",
+                        "inverse-surface": "#e4e1e6",
+                        "secondary": "#a4d64c",
+                        "on-background": "#e4e1e6",
+                        "surface-container": "#1f1f22",
+                        "secondary-container": "#719e13",
+                        "tertiary-container": "#909191",
+                        "surface-container-high": "#2a2a2d",
+                        "on-error": "#690005",
+                        "surface-container-lowest": "#0e0e11",
+                        "on-tertiary-fixed-variant": "#454747"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "lg": "48px",
+                        "md": "24px",
+                        "margin-mobile": "16px",
+                        "xl": "80px",
+                        "sm": "12px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "margin-desktop": "48px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Hanken Grotesk"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-lg": ["Bricolage Grotesque"],
+                        "display-lg-mobile": ["Bricolage Grotesque"],
+                        "body-md": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Bricolage Grotesque"],
+                        "label-sm": ["JetBrains Mono"],
+                        "headline-md": ["Bricolage Grotesque"],
+                        "display-lg": ["Bricolage Grotesque"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-lg-mobile": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg": ["72px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .neo-shadow {
+            box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+        }
+        .dark .neo-shadow {
+            box-shadow: 4px 4px 0px 0px #000;
+        }
+        .neo-shadow-lg {
+            box-shadow: 8px 8px 0px 0px rgba(0,0,0,1);
+        }
+        .neo-shadow-secondary {
+            box-shadow: 6px 6px 0px 0px #a4d64c;
+        }
+        .sticker {
+            transform: rotate(-2deg);
+        }
+        .sticker:nth-child(even) {
+            transform: rotate(3deg);
+        }
+        .btn-interact:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px rgba(0,0,0,1);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="w-full top-0 sticky z-50 border-b-2 border-surface-container-highest bg-surface shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex justify-between items-center px-margin-desktop py-4">
+<div class="font-headline-md text-headline-md font-bold text-on-surface tracking-tighter">
+            TECH_PORTFOLIO_V1
+        </div>
+<div class="hidden md:flex gap-8">
+<a class="font-label-md text-label-md uppercase text-primary underline decoration-2 underline-offset-4 hover:translate-x-[2px] hover:translate-y-[2px] transition-all" href="#">Projects</a>
+<a class="font-label-md text-label-md uppercase text-on-surface-variant hover:translate-x-[2px] hover:translate-y-[2px] transition-all" href="#">Stack</a>
+<a class="font-label-md text-label-md uppercase text-on-surface-variant hover:translate-x-[2px] hover:translate-y-[2px] transition-all" href="#">Lab</a>
+<a class="font-label-md text-label-md uppercase text-on-surface-variant hover:translate-x-[2px] hover:translate-y-[2px] transition-all" href="#">Contact</a>
+</div>
+<button class="bg-secondary text-on-secondary px-6 py-2 border-2 border-black font-label-md neo-shadow btn-interact active:scale-95 duration-100">
+            Hire Me
+        </button>
+</nav>
+<main class="max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-xl grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Profile Column (Sticky) -->
+<aside class="md:col-span-4 flex flex-col gap-md">
+<div class="bg-surface-container border-2 border-black p-md neo-shadow-lg sticky top-24">
+<div class="aspect-square w-full bg-surface-container-highest mb-md border-2 border-black overflow-hidden">
+<img alt="Founder Portrait" class="w-full h-full object-cover grayscale contrast-125" data-alt="A striking studio portrait of a visionary male founder in his early 30s, featuring sharp, high-contrast lighting that emphasizes a modern, professional look. The subject wears a minimalist black turtleneck against a deep charcoal background, exuding confidence and technological expertise. The image is rendered in a high-contrast black and white style with a subtle grain, aligning with a neo-brutalist aesthetic." src="https://lh3.googleusercontent.com/aida/AP1WRLtUufurVbBQXWpK33Fybn0ZKkRZSImB6M0fZS8jHyZE8fmnvktI2WeyDfkQ1upi58Ta0vVMgIg2271GsFDThIiT5ybmFZc8qmm5YKxLSWp9Jd8FjdUo9MOhWPEVlXXnjSNEr6i-vlcABw1M0mp0iE5b98r5ywDK8ZVdd3L5I3GkmqvyfqmC2cPCb809BVA-PgWkpdOcNSmDnUeg0br5SZ9re1S-8od-w_lIH-RDX5KuN6WRPtNAZTm5kQ"/>
+</div>
+<h1 class="font-headline-lg text-headline-lg mb-xs">ALEX_ROOT</h1>
+<p class="font-label-md text-label-md text-secondary mb-md uppercase tracking-widest">Full-Stack Architect</p>
+<div class="flex flex-wrap gap-sm mb-md">
+<div class="bg-white text-black px-3 py-1 border-2 border-black font-label-sm sticker shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                        GPA: 3.98
+                    </div>
+<div class="bg-primary-container text-on-primary-container px-3 py-1 border-2 border-black font-label-sm sticker shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                        MAGNA_CUM_LAUDE
+                    </div>
+</div>
+<div class="space-y-sm">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase">Technical Stack</h3>
+<div class="grid grid-cols-3 gap-sm">
+<div class="bg-surface-container-highest border-2 border-black p-2 flex flex-col items-center justify-center neo-shadow">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">terminal</span>
+<span class="font-label-sm text-[10px] mt-1 uppercase">Python</span>
+</div>
+<div class="bg-surface-container-highest border-2 border-black p-2 flex flex-col items-center justify-center neo-shadow">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">database</span>
+<span class="font-label-sm text-[10px] mt-1 uppercase">SQL</span>
+</div>
+<div class="bg-surface-container-highest border-2 border-black p-2 flex flex-col items-center justify-center neo-shadow">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">javascript</span>
+<span class="font-label-sm text-[10px] mt-1 uppercase">Node.js</span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Narrative Content -->
+<article class="md:col-span-8 space-y-xl">
+<!-- Section: What I Believe -->
+<section id="belief">
+<div class="inline-block bg-secondary text-on-secondary px-4 py-1 border-2 border-black font-label-md neo-shadow mb-md uppercase">
+                    Section 01 // Beliefs
+                </div>
+<h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg leading-none mb-md">
+                    WHAT I <br/> <span class="text-secondary">BELIEVE.</span>
+</h2>
+<div class="bg-surface-container border-2 border-black p-md md:p-lg neo-shadow-lg relative overflow-hidden">
+<div class="absolute top-0 right-0 p-md opacity-10">
+<span class="material-symbols-outlined text-[120px]">lightbulb</span>
+</div>
+<div class="relative z-10 space-y-md">
+<p class="font-body-lg text-body-lg text-on-surface">
+                            Design is not just how it looks; it is how the logic breathes. I believe in the <span class="bg-secondary-container px-1 font-bold">Unapologetic Interface</span>—systems that don't hide their technical nature behind soft curves and gradients.
+                        </p>
+<p class="font-body-lg text-body-lg text-on-surface">
+                            True digital craftsmanship lies in the intersection of high-contrast boundaries and fluid performance. If a system is powerful, it should look precise. If a system is complex, it should feel structural.
+                        </p>
+</div>
+</div>
+</section>
+<!-- Section: What I Build -->
+<section id="build">
+<div class="inline-block bg-secondary text-on-secondary px-4 py-1 border-2 border-black font-label-md neo-shadow mb-md uppercase">
+                    Section 02 // Output
+                </div>
+<h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg leading-none mb-md">
+                    WHAT I <br/> <span class="text-secondary">BUILD.</span>
+</h2>
+<!-- Bento Grid for Projects -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="bg-surface-container border-2 border-black p-md neo-shadow-secondary flex flex-col justify-between">
+<div>
+<span class="material-symbols-outlined text-secondary mb-sm" style="font-variation-settings: 'FILL' 1;">monitoring</span>
+<h4 class="font-headline-md text-headline-md mb-xs">Kernel_Dash V4</h4>
+<p class="font-body-md text-body-md mb-md">A real-time telemetry dashboard for distributed cloud clusters with zero-latency updates.</p>
+</div>
+<div class="flex gap-sm">
+<span class="bg-white text-black text-[10px] px-2 py-0.5 border border-black font-label-sm">RUST</span>
+<span class="bg-white text-black text-[10px] px-2 py-0.5 border border-black font-label-sm">WASM</span>
+</div>
+</div>
+<div class="bg-surface-container border-2 border-black p-md neo-shadow-secondary flex flex-col justify-between">
+<div>
+<span class="material-symbols-outlined text-secondary mb-sm" style="font-variation-settings: 'FILL' 1;">account_tree</span>
+<h4 class="font-headline-md text-headline-md mb-xs">Graph_Logic_OS</h4>
+<p class="font-body-md text-body-md mb-md">A visual programming environment for neural network architecture design.</p>
+</div>
+<div class="flex gap-sm">
+<span class="bg-white text-black text-[10px] px-2 py-0.5 border border-black font-label-sm">PYTHON</span>
+<span class="bg-white text-black text-[10px] px-2 py-0.5 border border-black font-label-sm">REACT</span>
+</div>
+</div>
+<div class="md:col-span-2 bg-secondary text-on-secondary border-2 border-black p-md neo-shadow-lg flex flex-col md:flex-row items-center gap-md">
+<div class="flex-1">
+<h4 class="font-headline-md text-headline-md mb-xs text-on-secondary">Current Focus: Autonomous DX</h4>
+<p class="font-body-md text-body-md text-on-secondary opacity-90">Building LLM-integrated developer tools that predict infrastructure bottlenecks before the first line of code is committed.</p>
+</div>
+<button class="bg-surface text-on-surface px-8 py-3 border-2 border-black font-label-md neo-shadow btn-interact whitespace-nowrap">
+                            View Roadmap
+                        </button>
+</div>
+</div>
+</section>
+<!-- Section: How I Work -->
+<section id="work">
+<div class="inline-block bg-secondary text-on-secondary px-4 py-1 border-2 border-black font-label-md neo-shadow mb-md uppercase">
+                    Section 03 // Process
+                </div>
+<h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg leading-none mb-md">
+                    HOW I <br/> <span class="text-secondary">WORK.</span>
+</h2>
+<div class="space-y-md">
+<div class="group bg-surface-container border-2 border-black p-md neo-shadow hover:translate-x-1 transition-transform">
+<div class="flex items-start gap-md">
+<span class="font-display-lg text-headline-lg text-secondary opacity-40">01</span>
+<div>
+<h5 class="font-headline-md text-headline-md uppercase mb-xs">First Principles Research</h5>
+<p class="font-body-md text-body-md text-on-surface-variant">Every project begins by stripping away assumptions. I spend 40% of the timeline in the "Abstract Layer," mapping out data flows and constraints before touching a text editor.</p>
+</div>
+</div>
+</div>
+<div class="group bg-surface-container border-2 border-black p-md neo-shadow hover:translate-x-1 transition-transform">
+<div class="flex items-start gap-md">
+<span class="font-display-lg text-headline-lg text-secondary opacity-40">02</span>
+<div>
+<h5 class="font-headline-md text-headline-md uppercase mb-xs">Rapid Prototyping Loops</h5>
+<p class="font-body-md text-body-md text-on-surface-variant">Speed is a feature. I build functional, high-fidelity prototypes early to test structural integrity under load. Failure is optimized to happen in the first week.</p>
+</div>
+</div>
+</div>
+<div class="group bg-surface-container border-2 border-black p-md neo-shadow hover:translate-x-1 transition-transform">
+<div class="flex items-start gap-md">
+<span class="font-display-lg text-headline-lg text-secondary opacity-40">03</span>
+<div>
+<h5 class="font-headline-md text-headline-md uppercase mb-xs">Obsessive Refinement</h5>
+<p class="font-body-md text-body-md text-on-surface-variant">The final 20% of effort produces 80% of the polish. I fine-tune latency, accessibility, and micro-interactions until the interface feels physical.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</article>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t-2 border-surface-container-highest bg-surface-container-lowest mt-xl">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-md w-full gap-md">
+<div class="font-label-md text-label-md text-secondary">
+                © 2024 SYSTEM_ROOT // OPERATIONAL
+            </div>
+<div class="flex gap-8">
+<a class="font-label-sm text-label-sm uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">System Logs</a>
+<a class="font-label-sm text-label-sm uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">Network Status</a>
+<a class="font-label-sm text-label-sm uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">Public Key</a>
+<a class="font-label-sm text-label-sm uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">Archive</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple micro-interactions
+        document.querySelectorAll('.btn-interact').forEach(btn => {
+            btn.addEventListener('mousedown', () => {
+                btn.style.transform = 'scale(0.95)';
+            });
+            btn.addEventListener('mouseup', () => {
+                btn.style.transform = '';
+            });
+        });
+
+        // Atmospheric parallax effect for neo-shadows on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const stickers = document.querySelectorAll('.sticker');
+            stickers.forEach((sticker, i) => {
+                const speed = 0.02 * (i + 1);
+                sticker.style.transform = `rotate(${i % 2 === 0 ? -2 : 3}deg) translateY(${scrolled * speed}px)`;
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,474 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Mohib Ahmad — personal record
+   Durable contract: DESIGN.md at the repository root.
+
+   Direction: editorial, on the original charcoal-and-red identity.
+
+   The palette is the one this site already had. An earlier pass in this
+   redesign swapped red for a teal and it was the wrong call — red was the
+   distinguishing mark of the previous build, it carries at 5.88:1 on the page
+   ground, and there was no problem with it that needed solving. What changed
+   is the discipline around it, not the hue: each accent now means exactly one
+   thing, and none of them is used to liven up a flat area.
+
+   Depth comes from the surface ladder and hairlines. No blurs, no drop shadows.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Surfaces, darkest to lightest. */
+  --bg: #0a0a0a;
+  --surface: #111113;
+  --panel: #16171a;
+  --panel-high: #1e2024;
+
+  --line: #26282d;
+  --line-bright: #3a3d44;
+
+  /* Text. --text-mute is the 5.2:1 floor and is never used below 12px. */
+  --text: #fffaf3;
+  --text-dim: #cfc7bd;
+  --text-mute: #a09a92;
+
+  /* ── Accents ───────────────────────────────────────────────────────────────
+     Three, each with one fixed meaning:
+       red    primary action, links, the current thing   5.88:1 on --bg
+       yellow research and mathematics                  11.4:1 on --bg
+       cyan   systems and engineering                   10.3:1 on --bg
+     An accent chosen for mood rather than meaning is a bug.
+     ─────────────────────────────────────────────────────────────────────── */
+  --red: #ff4938;
+  --yellow: #ffcf4a;
+  --cyan: #64d8ff;
+
+  /* Semantic aliases over the canonical hues, so a component can read by role. */
+  --accent: var(--red);
+  --warm: var(--yellow);
+  --cool: var(--cyan);
+  --alert: var(--red);
+
+  /*
+    Canvas-facing tokens. These are literal hex, NOT `var()` aliases, because
+    the scenes in components/visual read them back with
+    getComputedStyle().getPropertyValue() and hand the string to a parser that
+    expects `#rrggbb`. An unregistered custom property holding `var(--text)`
+    is not guaranteed to come back substituted, and a `var(...)` string parses
+    to NaN — which yields `rgba(NaN,NaN,NaN,a)`, an invalid canvas color that
+    fails silently and leaves strokes painted in whatever style came before.
+    Keep these in sync with --bg and --text above by hand.
+  */
+  --background: #0a0a0a;
+  --paper: #fffaf3;
+
+  --font-display-stack: var(--font-display), "Lyon Text", Newsreader, ui-serif, Georgia, serif;
+  --font-body-stack: var(--font-body), "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono-stack: var(--font-mono), "SF Mono", "JetBrains Mono", Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body-stack);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+::selection {
+  background: rgba(255, 73, 56, 0.3);
+  color: var(--text);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  text-wrap: balance;
+  font-weight: 400;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+/* ── Type roles ─────────────────────────────────────────────────────────────
+   Faces are the ones named in the `minimalist-ui` skill's target lists:
+   Geist for sans, Geist Mono for monospace, Instrument Serif for the editorial
+   serif. That skill rules out Inter, Roboto and Open Sans by name.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* The serif, and only at 28px and up. Tight tracking and 1.02 leading are what
+   make it read as editorial rather than as a default serif. */
+.display {
+  font-family: var(--font-display-stack);
+  font-weight: 400;
+  letter-spacing: -0.022em;
+  line-height: 1.03;
+}
+
+/* The oversized hero setting. Leading goes below 1 because at this size the
+   ascenders and descenders carry the rhythm on their own. */
+.display-hero {
+  font-family: var(--font-display-stack);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 0.94;
+}
+
+.label {
+  font-family: var(--font-mono-stack);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.label-sm {
+  font-family: var(--font-mono-stack);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.mono {
+  font-family: var(--font-mono-stack);
+  font-feature-settings: "ss01", "zero";
+}
+
+/* Mathematical notation, set in mono so it survives being copied out. */
+.math {
+  font-family: var(--font-mono-stack);
+  font-size: 0.9375em;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  background: var(--panel-high);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 0.1em 0.38em;
+  white-space: nowrap;
+}
+
+.prose-measure {
+  max-width: 66ch;
+}
+
+/* ── Surfaces ───────────────────────────────────────────────────────────── */
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.panel-high {
+  background: var(--panel-high);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.panel-link {
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+.panel-link:hover {
+  border-color: var(--line-bright);
+  background: var(--panel-high);
+}
+
+.rule {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 0;
+}
+
+/* ── Controls ───────────────────────────────────────────────────────────── */
+
+.btn {
+  align-items: center;
+  border: 1px solid var(--line-bright);
+  border-radius: 2px;
+  display: inline-flex;
+  font-family: var(--font-mono-stack);
+  font-size: 0.8125rem;
+  gap: 0.5rem;
+  justify-content: center;
+  letter-spacing: 0.02em;
+  min-height: 2.75rem;
+  padding: 0.625rem 1.15rem;
+  /* 160ms: the baseline-ui skill caps interaction feedback at 200ms. */
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.btn-primary {
+  background: var(--red);
+  border-color: var(--red);
+  color: #0a0a0a;
+}
+
+.btn-primary:hover {
+  background: #ff6555;
+  border-color: #ff6555;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+}
+
+.btn-ghost:hover {
+  background: var(--panel-high);
+  border-color: var(--line-bright);
+}
+
+.btn-warm {
+  background: transparent;
+  border-color: var(--yellow);
+  color: var(--yellow);
+}
+
+.btn-warm:hover {
+  background: rgba(255, 207, 74, 0.12);
+}
+
+.tag {
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  color: var(--text-dim);
+  display: inline-flex;
+  font-family: var(--font-mono-stack);
+  font-size: 0.75rem;
+  min-height: 1.75rem;
+  padding: 0.15rem 0.5rem;
+}
+
+/*
+  Category and status marks are short rules, not dots.
+
+  The small coloured circle beside a status is one of the most recognisable
+  tells of a generated interface, especially when it pulses. A 2px rule reads
+  as a typographic mark instead, and sits with the monospace labels it
+  accompanies.
+*/
+.mark {
+  display: inline-block;
+  height: 2px;
+  width: 18px;
+  flex: none;
+}
+
+.nav-link {
+  font-family: var(--font-mono-stack);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  transition: color 160ms ease;
+}
+
+/* ── Motion ─────────────────────────────────────────────────────────────────
+   Entry animation is CSS, never JS. A Framer `initial` prop renders the hero at
+   opacity 0 in the server HTML and leaves it invisible until hydration lands —
+   bad for LCP, broken outright without JS. Hard rule, learned on the last build.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes grow-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes reveal-word {
+  from {
+    opacity: 0.12;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.rise-in {
+  animation: rise-in 640ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.fade-in {
+  animation: fade-in 900ms ease both;
+}
+
+.delay-1 {
+  animation-delay: 90ms;
+}
+.delay-2 {
+  animation-delay: 180ms;
+}
+.delay-3 {
+  animation-delay: 280ms;
+}
+
+/*
+  Scroll reveals. `.reveal` and `.reveal-word` carry NO styles by default, so
+  content is fully visible in Firefox and Safari (no scroll-driven animation
+  support yet) and with JS disabled. Only browsers that can drive the animation
+  from scroll position opt in — the opposite failure mode from an
+  IntersectionObserver reveal, which leaves content at opacity 0 forever when
+  its script never runs.
+*/
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: rise-in 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-timeline: view();
+      animation-range: entry 4% entry 46%;
+    }
+
+    /*
+      Word-by-word reading reveal, adapted from React Bits' ScrollReveal
+      (reactbits.dev/text-animations/scroll-reveal). Theirs is GSAP
+      ScrollTrigger with a blur pass; this is the same effect on the native
+      scroll timeline, which drops the ~70KB dependency and the blur the
+      design system forbids. Words start at 0.12 opacity, matching their
+      baseOpacity default.
+    */
+    .reveal-word {
+      animation: reveal-word linear both;
+      animation-timeline: view();
+      animation-range: entry 12% cover 42%;
+    }
+
+    .grow-x {
+      animation: grow-x 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-timeline: view();
+      animation-range: entry 10% entry 66%;
+      transform-origin: left;
+    }
+  }
+}
+
+/*
+  Portrait treatment. The photograph was shot against motion-blurred green
+  foliage, which fights a near-black page. A light desaturation and a lift in
+  contrast settle it into the surface without turning it into a silhouette —
+  a full grayscale pass loses the warmth in the face, and the red in the shirt
+  happens to be the site's accent, so it is worth keeping.
+*/
+/*
+  Portrait treatment.
+
+  The photograph was shot outdoors against motion-blurred green foliage, and
+  green is the one hue that actively fights a near-black page with a red
+  accent. The job is to settle it into the surface without darkening the
+  subject — an earlier pass ran brightness at 0.88 and the result read as
+  grim rather than integrated, which is the opposite of what a portrait is for.
+
+  So: cut the saturation hard, leave the exposure alone, and let the face stay
+  lit. The red in the shirt survives, which is worth keeping because it is the
+  site's accent hue.
+*/
+.portrait-grade {
+  filter: saturate(0.5) contrast(1.02) brightness(1.02);
+}
+
+/*
+  Dissolves the photograph into the page on all four sides, so there is no
+  rectangle anywhere. Two masks are intersected: a radial ellipse centred on
+  the subject, which feathers left and right, and a vertical linear pass that
+  clears the top and bottom edges. Composited with `intersect`, every edge
+  reaches zero before the element box does.
+
+  This is the technique the previous build used, and it was the right one — a
+  hard photo edge against a flat dark page always reads as pasted on.
+*/
+.portrait-feather {
+  /*
+    The radii here are deliberately smaller than half the element, and that is
+    the whole trick. `radial-gradient(ellipse 52% 64% ...)` sets the radii to
+    52% of the width and 64% of the height, so an ellipse centred at 60% spans
+    x from 8% to 112% — meaning the gradient's transparent stop is reached
+    before the left edge of the box.
+
+    A first attempt used 78% x 70%, which put the box edges only two thirds of
+    the way along the gradient ray. Every edge still had roughly 30% alpha, so
+    the photograph kept a visible rectangle despite being "masked".
+  */
+  -webkit-mask-image: radial-gradient(ellipse 52% 64% at 60% 42%, #000 26%, rgba(0, 0, 0, 0.7) 58%, transparent 88%),
+    linear-gradient(180deg, transparent 0%, #000 12%, #000 74%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: radial-gradient(ellipse 52% 64% at 60% 42%, #000 26%, rgba(0, 0, 0, 0.7) 58%, transparent 88%),
+    linear-gradient(180deg, transparent 0%, #000 12%, #000 74%, transparent 100%);
+  mask-composite: intersect;
+}
+
+/* Same grade, no mask — for the square tile on /about, where the photo sits
+   inside a deliberate bordered frame and the rectangle is part of the design. */
+.portrait-framed {
+  filter: saturate(0.62) contrast(1.02) brightness(1.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

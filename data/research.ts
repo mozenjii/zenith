@@ -1,0 +1,227 @@
+/**
+ * Research output.
+ *
+ * ── The status rule, which must not be relaxed ──────────────────────────────
+ *
+ * The manuscript below is a PREPRINT. As of 2026-09-05 it is:
+ *
+ *   - complete, and internally verified (18/18 symbolic checks pass)
+ *   - packaged for arXiv (math.CO) and for Linear Algebra and its Applications
+ *   - NOT posted to arXiv - the package still contains an endorsement-request
+ *     template, so no arXiv identifier exists
+ *   - NOT submitted, NOT peer-reviewed, NOT accepted anywhere
+ *   - absent from the author's ORCID record, which registers zero works
+ *
+ * Every one of those was checked directly: the ORCID iD against the public
+ * ORCID API, the arXiv absence against the arXiv API, and the submission state
+ * against the author's own sign-off checklist, whose boxes are all unticked.
+ *
+ * So `status` is "preprint" and the venue field does not exist. Do not add a
+ * venue, a DOI, an arXiv id, a citation count, or the words "published" or
+ * "peer-reviewed" until there is a URL that proves it. An unverifiable venue on
+ * a portfolio is worse than no venue at all, and a referee is exactly the kind
+ * of reader who will check.
+ */
+
+export type Preprint = {
+  id: string;
+  title: string;
+  authors: string;
+  /** ISO date the manuscript was finalized. */
+  date: string;
+  status: "preprint" | "submitted" | "accepted" | "published";
+  /** Where it is packaged to go. Explicitly an intention, not a claim. */
+  preparedFor: string[];
+  abstract: string;
+  /** Plain-language framing for a non-specialist reader. */
+  plainSummary: string;
+  msc: string;
+  keywords: string[];
+  pages: number;
+  pdf: string;
+  supplement: string;
+  /** The results, each as a self-contained statement. */
+  results: Array<{ claim: string; detail: string }>;
+  /** What the paper explicitly does NOT settle. Stated by the paper itself. */
+  limits: string[];
+};
+
+export const preprint: Preprint = {
+  id: "weighted-fourier-certificates",
+  title:
+    "Weighted Fourier certificates for maximum nullity in generalized Petersen graphs: rational classification and arithmetic obstructions",
+  authors: "Mohib Ahmad",
+  date: "2026-08-31",
+  status: "preprint",
+  preparedFor: ["arXiv (math.CO)", "Linear Algebra and its Applications"],
+  abstract:
+    "For a graph G, the maximum nullity M(G) of the real symmetric matrices described by G satisfies M(G) ≤ Z(G), where Z(G) is the zero forcing number. Alameda et al. proved Z(P(n,k)) ≤ 2k+2 for generalized Petersen graphs, and Krishnan recently corrected the published claim for P(n,3) by showing Z(P(12,3)) = 7 and conjecturing Z(P(n,3)) = 8 for every n ≥ 13. We construct weighted block-circulant matrices in S(P(n,k)) and diagonalize them by the discrete Fourier transform. For P(n,3) the singularity condition is encoded by an eighth-degree reciprocal polynomial. Explicit root-of-unity certificates prove M(P(n,3)) = Z(P(n,3)) = 8 whenever 10, 24, 28 or 42 divides n; these indices have natural density 1/6. We then determine the rational part of this construction completely, and derive arithmetic obstructions from the Lam–Leung theorem on vanishing sums of roots of unity.",
+  plainSummary:
+    "There is a graph invariant that is hard to pin down, and a conjecture that it equals 8 for a whole infinite family of graphs. This paper proves the conjecture for a sixth of all cases by building matrices whose singularity is decided by where eight roots of a polynomial land on the unit circle. It then proves that this particular technique cannot finish the job — an arithmetic obstruction rules out the remaining cases. Establishing the limit of your own method is the less common half.",
+  msc: "Primary 05C50; Secondary 15A03, 15A18, 11R18",
+  keywords: [
+    "zero forcing number",
+    "maximum nullity",
+    "generalized Petersen graph",
+    "block-circulant matrix",
+    "Fourier diagonalization",
+    "cyclotomic polynomial",
+    "vanishing sums of roots of unity"
+  ],
+  pages: 13,
+  pdf: "/assets/research/weighted-fourier-certificates-petersen.pdf",
+  supplement: "/assets/research/petersen-supplementary-material.zip",
+  results: [
+    {
+      claim: "M(P(n,3)) = Z(P(n,3)) = 8 when 10, 24, 28 or 42 divides n",
+      detail:
+        "Explicit root-of-unity certificates, covering a set of indices of natural density 1/6. This settles Krishnan's conjecture on that set."
+    },
+    {
+      claim: "The rational part of the construction is classified completely",
+      detail:
+        "If the three weight parameters are rational and all eight roots are distinct roots of unity, exactly six parameter triples occur, with minimal moduli 10, 24, 40 and 42. The modulus-28 certificate is therefore genuinely algebraic rather than rational."
+    },
+    {
+      claim: "A Lam–Leung obstruction bounds the whole certificate class",
+      detail:
+        "Any certificate at level n forces 27 into the numerical semigroup generated by the prime divisors of n. Consequently no admissible prime level supports a constant-weight certificate, and among levels n = 2p with p an odd prime only n = 10 occurs."
+    },
+    {
+      claim: "A signed construction extends the result to general step size",
+      detail:
+        "If Q_k(z) = z^(2k+2) + z^(2k) + z^(k+1) + z^2 + 1 divides z^L − 1, then M(P(Lr,k)) = Z(P(Lr,k)) = 2k+2 for every r ≥ 1. In particular M(P(120r,7)) = Z(P(120r,7)) = 16."
+    }
+  ],
+  limits: [
+    "The certificate class cannot by itself settle the conjecture for all n ≥ 13. The paper proves this rather than leaving it open.",
+    "The computer-assisted search up to modulus 420 is reported as computational evidence, not a nonexistence proof.",
+    "The uniform lower bound Z(P(n,3)) ≥ 8 remains open outside the covered families."
+  ]
+};
+
+/**
+ * The six valid rational certificates, verbatim from the supplement's
+ * `classify_rational.py` output. Fourteen degree-8 products of distinct
+ * cyclotomic polynomials were enumerated; eight are degenerate (τ = 0).
+ *
+ * This is the data the home-page instrument animates, and it is real: `roots`
+ * is the multiset of root orders on the unit circle for each factorization.
+ */
+export type Certificate = {
+  factors: string;
+  /** Weight parameters (p, q, τ). */
+  p: number;
+  q: number;
+  tau: number;
+  /** Minimal modulus L. */
+  L: number;
+  /** Orders of the cyclotomic factors, which fix where the roots sit. */
+  orders: number[];
+};
+
+export const rationalCertificates: Certificate[] = [
+  { factors: "Φ₅·Φ₁₀", p: 0, q: 0, tau: -1, L: 10, orders: [5, 10] },
+  { factors: "Φ₃·Φ₆·Φ₈", p: 0, q: 0, tau: -2, L: 24, orders: [3, 6, 8] },
+  { factors: "Φ₅·Φ₈", p: 1, q: 1, tau: -1, L: 40, orders: [5, 8] },
+  { factors: "Φ₈·Φ₁₀", p: -1, q: -1, tau: -1, L: 40, orders: [8, 10] },
+  { factors: "Φ₃·Φ₁₄", p: 0, q: -1, tau: -1, L: 42, orders: [3, 14] },
+  { factors: "Φ₆·Φ₇", p: 0, q: 1, tau: -1, L: 42, orders: [6, 7] }
+];
+
+/** The divisibility families the certificates actually cover. */
+export const coveredModuli = [10, 24, 28, 42] as const;
+
+/**
+ * Verification evidence shipped with the paper. Numbers only where a recorded
+ * output file backs them; each corresponds to a file in the supplement.
+ */
+export const verification = [
+  { label: "Symbolic checks", value: "18 / 18 pass", source: "verify_paper.py" },
+  { label: "Rational classification", value: "14 candidates → 6 valid", source: "classify_rational.py" },
+  { label: "Exhaustive search", value: "no new modulus ≤ 420", source: "search_moduli.py" },
+  { label: "Zero forcing, exact", value: "7 ≤ n ≤ 27", source: "zero_forcing.c" }
+];
+
+/**
+ * Independently computed zero forcing numbers for P(n,3), from the exhaustive
+ * C search in the supplement. Included because it reproduces Krishnan's
+ * boundary counterexample Z(P(12,3)) = 7 rather than assuming it.
+ */
+export const zeroForcingTable: Array<{ n: number; z: number }> = [
+  { n: 7, z: 6 },
+  { n: 8, z: 6 },
+  { n: 9, z: 6 },
+  { n: 10, z: 8 },
+  { n: 11, z: 7 },
+  { n: 12, z: 7 },
+  { n: 13, z: 8 },
+  { n: 14, z: 8 },
+  { n: 15, z: 8 },
+  { n: 16, z: 8 },
+  { n: 17, z: 8 },
+  { n: 18, z: 8 },
+  { n: 19, z: 8 },
+  { n: 20, z: 8 }
+];
+
+/**
+ * Open engineering questions, each grounded in a project that exists in this
+ * repository. Nothing here claims a paper - these are restatements of the
+ * `hardPart` and `tradeoff` fields recorded against real work, so every one is
+ * traceable to code a reader can open.
+ */
+export type ResearchTrack = {
+  id: string;
+  area: string;
+  question: string;
+  approach: string;
+  methods: string[];
+  /** Slug of the grounding project in data/projects.ts. */
+  groundedIn: string;
+};
+
+export const researchTracks: ResearchTrack[] = [
+  {
+    id: "rules-as-code",
+    area: "Rules as code, and the limits of model-assisted extraction",
+    question:
+      "How much of the translation from published regulation to executable logic can a language model do, if it is never allowed to decide anything?",
+    approach:
+      "Built a compiler where the model only ever proposes candidates, six deterministic checks stand between it and the IR, every semantic object carries a source span back to the authoritative text, and no rule executes until a human approves it. Then tried to break the review gate on purpose with seeded errors.",
+    methods: [
+      "Typed IR with a closed expression AST",
+      "Four-state deterministic evaluation",
+      "Mutation testing",
+      "Adversarial review gate",
+      "Provenance to source spans"
+    ],
+    groundedIn: "ruleweaver"
+  },
+  {
+    id: "evidence-over-prediction",
+    area: "Clinical operations, evidence versus prediction",
+    question:
+      "Is a denial-risk probability the wrong output for a prior-authorization workflow, and is criterion-level evidence the right one?",
+    approach:
+      "Started with a denial-prediction prototype, then rejected that framing. The current architecture will not let a denial probability sort a work queue or feed a gate; what it produces instead is criterion-level provenance against versioned policy, moving through one canonical state machine.",
+    methods: [
+      "Criterion DSL",
+      "Five-value status algebra",
+      "Versioned policy",
+      "Determinism boundary",
+      "Hash-chained audit"
+    ],
+    groundedIn: "priora"
+  },
+  {
+    id: "backpressure-telemetry",
+    area: "Concurrent systems and observability",
+    question:
+      "What is the minimum telemetry needed to see queue pressure and ordering faults in a streaming pipeline, without coupling observability to packet processing?",
+    approach:
+      "Implemented a three-stage pipeline over bounded multiprocessing queues with signature verification and packet re-sequencing, exposing state through an observer rather than reaching into the workers.",
+    methods: ["Bounded queues", "Multiprocessing", "Observer pattern", "Packet re-sequencing"],
+    groundedIn: "streamscope"
+  }
+];

@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+
+# Build output. `.next*` rather than `.next` because next.config.ts supports
+# NEXT_DIST_DIR for verification builds (e.g. NEXT_DIST_DIR=.next-verify).
+.next*/
+out/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Secrets
+.env*
+!.env.example
+
+# ── Browser profiles — MUST stay ignored ────────────────────────────────────
+# These are real Chromium user-data directories left behind by QA runs, and
+# each one contains `Login Data`, `Web Data`, `History` and `Cookies`. Chrome's
+# `Login Data` is its saved-credential store. Committing any of this to a
+# public repository would publish session and credential material.
+.chrome-qa-*/
+.playwright-mcp/
+
+# Local logs
+*.log
+.next-dev.*
+
+# QA screenshots from earlier design passes. Regenerable, and ~7MB of noise in
+# a repository whose source is under 200KB.
+*.png
+!public/**/*.png
+!app/**/*.png
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini

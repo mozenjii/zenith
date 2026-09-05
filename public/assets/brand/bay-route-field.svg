@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1000" viewBox="0 0 1400 1000" role="img" aria-label="Abstract Bay Area route field">
+  <!--
+    Palette matches the Neo-Graphic tokens in app/globals.css.
+    This asset previously used a muted editorial palette (#C93B2B / #F2B36B /
+    #8C2324) from an earlier design direction, which read as mud inside the
+    charcoal hero panel.
+  -->
+  <rect width="1400" height="1000" fill="#101012"/>
+
+  <!-- Corridor masses: quiet structure for the routes to sit on -->
+  <path d="M176 190C326 260 388 354 368 475C346 611 454 724 622 738C838 756 892 600 1066 618C1198 632 1262 724 1324 836" fill="none" stroke="#1e1e21" stroke-width="170" stroke-linecap="round"/>
+  <path d="M196 190C340 282 430 372 442 502C456 644 552 720 684 704C878 682 934 536 1116 564C1248 584 1302 694 1348 814" fill="none" stroke="#26262a" stroke-width="112" stroke-linecap="round"/>
+
+  <!-- Signal routes, one per accent -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M164 232C404 336 456 512 578 594C722 690 920 626 1110 690" stroke="#ff4938" stroke-width="6" stroke-dasharray="20 22" opacity=".9"/>
+    <path d="M302 790C450 608 610 518 782 456C944 398 1094 318 1224 162" stroke="#ffcf4a" stroke-width="4" stroke-dasharray="10 20" opacity=".72"/>
+    <path d="M120 548C308 520 526 418 736 282C936 154 1100 130 1302 192" stroke="#64d8ff" stroke-width="4" opacity=".6"/>
+  </g>
+
+  <!-- Junctions -->
+  <g opacity=".92">
+    <circle cx="202" cy="246" r="9" fill="#fffaf3"/>
+    <circle cx="448" cy="508" r="11" fill="#ff4938"/>
+    <circle cx="678" cy="704" r="9" fill="#ffcf4a"/>
+    <circle cx="1092" cy="684" r="10" fill="#64d8ff"/>
+  </g>
+</svg>
