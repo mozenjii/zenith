@@ -51,7 +51,21 @@ export function Hero() {
           base="portrait"
           alt=""
           priority
-          sizes="60vw"
+          /*
+            The `1px` branch is not a typo.
+
+            This plate is inside a `hidden lg:block` wrapper, so below 1024px it
+            is `display: none` — but a hidden <img> is still fetched, and this
+            one is `priority`, so a phone was eagerly downloading the 85KB
+            full-width AVIF for something it never shows. `sizes` describes the
+            rendered width, and the rendered width below the breakpoint really
+            is nothing, so declaring 1px there makes the browser choose the
+            smallest candidate: 16KB instead of 85KB, with no JavaScript and no
+            second element.
+
+            Above the breakpoint it is the LCP element and takes 60vw for real.
+          */
+          sizes="(min-width: 1024px) 60vw, 1px"
           className="portrait-grade portrait-feather relative h-full w-full object-cover object-top"
         />
       </div>
@@ -112,8 +126,10 @@ export function Hero() {
             base="portrait"
             alt={`${profile.name}, computer science undergraduate at ${profile.education.school}`}
             /* Capped at 420px by `max-w-[420px]`, so above that the image stops
-               growing and asking for 90vw would fetch a needlessly large file. */
-            sizes="(max-width: 468px) 100vw, 420px"
+               growing and asking for 90vw would fetch a needlessly large file.
+               The `lg` branch is the mirror of the plate above: this block is
+               `lg:hidden`, so from 1024px up its rendered width is nothing. */
+            sizes="(min-width: 1024px) 1px, (max-width: 468px) 100vw, 420px"
             className="portrait-framed mx-auto block aspect-[4/5] w-full max-w-[420px] rounded border border-[var(--line)] object-cover object-top"
           />
         </div>

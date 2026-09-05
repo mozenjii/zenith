@@ -12,7 +12,7 @@
  * placeholder host is present in what would be uploaded.
  */
 
-import { readFile, readdir } from "node:fs/promises";
+import { copyFile, readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 
 const OUT = "out";
@@ -35,6 +35,62 @@ async function* walk(dir) {
     }
   }
 }
+
+/**
+ * Flatten Next's RSC prefetch segments so a plain static host can serve them.
+ *
+ * Next 16's client segment cache asks for a prefetch payload at a dot-joined
+ * path — `/work/__next.work.__PAGE__.txt` — but `output: "export"` writes it as
+ * a nested directory, `out/work/__next.work/__PAGE__.txt`. On Vercel a routing
+ * rule reconciles the two. On a filesystem-backed host nothing does, so every
+ * `<Link>` prefetch 404s.
+ *
+ * It degrades quietly rather than breaking: navigation still works, it just
+ * falls back to a full fetch and logs two console errors per page. Which is
+ * exactly why it is worth fixing — nothing about it is visible until you open
+ * the console on the deployed site.
+ *
+ * So: for every directory named `__next.*`, write a sibling copy of each file
+ * beneath it with the path segments dot-joined. Recursive, because the dynamic
+ * route nests a second level (`__next.work/$d$slug/...`). The originals are
+ * left in place; they are a few KB and removing them buys nothing.
+ */
+async function flattenSegments(dir) {
+  let written = 0;
+
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (!entry.isDirectory()) continue;
+
+    if (entry.name.startsWith("__next.")) {
+      written += await copyFlattened(full, path.dirname(full), entry.name);
+    } else if (entry.name !== "_next") {
+      written += await flattenSegments(full);
+    }
+  }
+
+  return written;
+}
+
+/** Copy everything under `dir` to `target/<prefix>.<joined path>`. */
+async function copyFlattened(dir, target, prefix) {
+  let written = 0;
+
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      written += await copyFlattened(full, target, `${prefix}.${entry.name}`);
+    } else {
+      await copyFile(full, path.join(target, `${prefix}.${entry.name}`));
+      written += 1;
+    }
+  }
+
+  return written;
+}
+
+const flattened = await flattenSegments(OUT);
+console.log(`postbuild: flattened ${flattened} RSC prefetch segments`);
 
 const failures = [];
 let scanned = 0;
