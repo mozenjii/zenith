@@ -20,5 +20,5 @@
  * placeholder host ever reaches the exported output again.
  */
 export const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://mohib-ahmad.personal-profile-signal-map.workers.dev"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://mohibahmad.pages.dev"
 ).replace(/\/$/, "");

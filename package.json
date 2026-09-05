@@ -1,5 +1,5 @@
 {
-  "name": "personal-profile-signal-map",
+  "name": "mohibahmad",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "prebuild": "node scripts/prebuild.mjs",
     "images": "node scripts/build-images.mjs",
-    "postbuild": "node scripts/postbuild.mjs"
+    "postbuild": "node scripts/postbuild.mjs",
+    "deploy": "npm run build && wrangler pages deploy"
   },
   "dependencies": {
     "lucide-react": "^1.17.0",

@@ -1,22 +1,26 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "mohib-ahmad",
+  "name": "mohibahmad",
   "compatibility_date": "2026-09-05",
 
   /*
-    A static-asset Worker with no `main`: there is no Worker script at all, just
-    the exported site served from Cloudflare's edge. The site has no server-side
-    behavior to run (no route handlers, no middleware, no dynamic rendering), so
-    adding a runtime would mean paying cold starts and adapter-version coupling
-    to hand back HTML that already exists on disk.
+    Cloudflare Pages, not a Worker.
 
-    `html_handling` is left at its default, "auto-trailing-slash", which is what
-    maps a request for /about onto the exported `about.html`.
+    Both can host a static export, but the URL shape differs and that is the
+    whole reason for the choice: Pages serves <project>.pages.dev, while a
+    Worker serves <worker>.<account-subdomain>.workers.dev. The account
+    subdomain is set once, cannot be changed through the API afterwards, and on
+    this account had been auto-derived from the package.json name — which
+    produced mohib-ahmad.personal-profile-signal-map.workers.dev, 51 characters
+    of it, with no way back. Pages has no middle label to get wrong.
+
+    There is no functional downside here. `_headers` and `_redirects` are Pages
+    features that Workers static assets later adopted, so both files behave
+    identically, and epoches.co is already deployed this way on the same
+    account.
+
+    Deploy with `npm run deploy`, which builds first. `pages_build_output_dir`
+    is what lets `wrangler pages deploy` find the export without arguments.
   */
-  "assets": {
-    "directory": "./out",
-    // Next writes 404.html; without this an unmatched path returns a bare
-    // Cloudflare 404 instead of the site's own not-found page.
-    "not_found_handling": "404-page"
-  }
+  "pages_build_output_dir": "./out"
 }
