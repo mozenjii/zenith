@@ -3,6 +3,7 @@
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { useEffect, useState } from "react";
 
 /**
@@ -70,22 +71,26 @@ export function TopNav() {
           ))}
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden items-center gap-3 md:flex">
+          <ThemeToggle />
           <Link href="/contact" className="btn btn-primary !min-h-9 !px-4 !py-1.5 !text-xs">
             Get in touch
           </Link>
         </div>
 
-        <button
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
+          <button
           type="button"
-          className="panel-high flex h-10 w-10 items-center justify-center md:hidden"
+          className="panel-high flex h-10 w-10 items-center justify-center"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           aria-controls="mobile-nav"
           onClick={() => setOpen((value) => !value)}
         >
-          {open ? <X className="h-5 w-5" aria-hidden /> : <Menu className="h-5 w-5" aria-hidden />}
-        </button>
+            {open ? <X className="h-5 w-5" aria-hidden /> : <Menu className="h-5 w-5" aria-hidden />}
+          </button>
+        </div>
       </div>
 
       {open ? (

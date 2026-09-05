@@ -22,9 +22,15 @@ export type SceneName = "warp" | "constellation" | "ripple" | "flow" | "mesh" | 
 export type FieldPalette = {
   background: string;
   paper: string;
-  cyan: string;
+  /*
+    The four certificate colors, in modulus order: 10, 24, 28, 42. `violet`
+    exists only because the fourth family does; nothing on canvas may use one
+    of these four for anything other than its own modulus.
+  */
   red: string;
   yellow: string;
+  cyan: string;
+  violet: string;
   /** Accent-only picks, for scenes that should stay mostly monochrome. */
   accents: string[];
 };

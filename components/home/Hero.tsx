@@ -2,6 +2,8 @@ import { ArrowRight, FileText } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { RootsSignature } from "@/components/visual/RootsSignature";
+import { pageModulus } from "@/components/visual/rootsOfUnity";
 import { profile } from "@/data/profile";
 
 /**
@@ -41,13 +43,10 @@ export function Hero() {
         rather than showing as a seam.
       */}
       <div className="pointer-events-none absolute inset-y-0 -right-[5%] hidden w-[60%] lg:block">
-        {/* A low warm wash behind the photo, so the subject sits in a space
-            rather than floating on a flat void. Nothing reads as a "glow" at
-            this opacity; it just stops the dissolve looking like a hole. */}
-        <div
-          className="absolute inset-0 bg-[radial-gradient(ellipse_62%_58%_at_58%_44%,rgba(255,73,56,0.10)_0%,rgba(255,207,74,0.04)_45%,transparent_78%)]"
-          aria-hidden
-        />
+        {/* A low warm wash behind the photo. Defined in globals.css against
+            the theme tokens rather than inline here, because the two themes
+            need different strengths — see `.portrait-wash`. */}
+        <div className="portrait-wash absolute inset-0" aria-hidden />
         <Image
           src={profile.portrait}
           alt=""
@@ -61,6 +60,16 @@ export function Hero() {
 
       <div className="relative mx-auto flex max-w-[1240px] flex-col px-5 pb-12 pt-14 sm:px-8 lg:min-h-[78vh] lg:justify-center lg:pb-20 lg:pt-16">
         <div className="rise-in lg:max-w-[58%]">
+          {/*
+            The signature mark, and the first thing on the site: the tenth
+            roots of unity with the eight roots of the smallest certificate
+            marked. It opens the page because the same object is what the
+            instrument one section down rotates in 3D, and what every other
+            page header carries at its own modulus. A reader meets the
+            mathematics before they meet a single claim about it.
+          */}
+          <RootsSignature modulus={pageModulus.home} size={88} className="-ml-1 mb-6 block" />
+
           <p className="label flex flex-wrap items-center gap-x-3 gap-y-2 text-[var(--text-dim)]">
             <span className="mark bg-[var(--red)]" aria-hidden />
             {profile.current.role} · {profile.current.org}

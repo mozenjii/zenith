@@ -1,0 +1,139 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Tokens, in two themes.
+
+   Dark is the default and is declared on bare `:root` — this is a deliberate
+   brand choice, not a response to `prefers-color-scheme`. Light is opt-in and
+   applies only under an explicit `[data-theme="light"]`, set by the toggle and
+   persisted. A reader on a light-mode OS still gets the dark site first.
+
+   Why light mode exists at all: on a dark page the pupil dilates, depth of
+   field drops, and thin light strokes smear. That is halation, and it makes
+   sustained reading measurably harder — worst for astigmatic readers. The
+   portfolio is scanned in short bursts and dark suits it; /research is the one
+   surface someone actually reads end to end, and it should be their choice.
+
+   Two rules that must not be broken:
+   1. Every color is defined in BOTH blocks. A token that only exists in one
+      theme is a bug that ships as invisible text.
+   2. Never `#fff` on `#000`. Maximum-contrast pairs are exactly where halation
+      is worst; the warm off-white and near-black below are the mitigation.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  color-scheme: dark;
+
+  /* Surfaces, darkest to lightest. */
+  --bg: #0a0a0a;
+  --surface: #111113;
+  --panel: #16171a;
+  --panel-high: #1e2024;
+
+  --line: #26282d;
+  --line-bright: #3a3d44;
+
+  /* Text. --text-mute is the contrast floor and is never used below 12px. */
+  --text: #fffaf3;
+  --text-dim: #cfc7bd;
+  --text-mute: #a09a92;
+
+  /* ── The four certificate colors ─────────────────────────────────────────
+     Not decoration and not a mood board. The paper proves
+     M(P(n,3)) = Z(P(n,3)) = 8 on exactly four divisibility families, and each
+     one gets a color that is used for that modulus and nothing else, site-wide:
+
+       10 → red        24 → yellow        28 → cyan        42 → violet
+
+     Red doubles as the site's primary action color, because 10 is the first
+     and smallest certificate and red was already the identity.
+     ──────────────────────────────────────────────────────────────────────── */
+  --red: #ff4938;
+  --yellow: #ffcf4a;
+  --cyan: #64d8ff;
+  --violet: #a78bfa;
+
+  /* Text color to sit ON an accent fill. */
+  --on-accent: #0a0a0a;
+
+  /* Semantic aliases, so a component can read by role rather than by hue. */
+  --accent: var(--red);
+  --warm: var(--yellow);
+  --cool: var(--cyan);
+  --alert: var(--red);
+
+  /* Canvas-facing duplicates. These are literal hex, NOT var() references,
+     because the scenes read them back with getComputedStyle() and hand the
+     string to a parser expecting #rrggbb. A var() string parses to NaN, which
+     yields rgba(NaN,NaN,NaN,a) — an invalid canvas color that fails silently.
+     Keep in step with --bg and --text by hand. */
+  --background: #0a0a0a;
+  --paper: #fffaf3;
+
+  /* How strongly the canvas instruments read. Lower on light, where a
+     near-white ground gives thin strokes far less to push against. */
+  --field-opacity: 0.55;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  /* Warm paper rather than white. #fff at full brightness is its own glare
+     problem, and the warmth carries the same character as the dark theme. */
+  --bg: #faf8f4;
+  --surface: #f3f0ea;
+  --panel: #ffffff;
+  --panel-high: #f7f4ee;
+
+  --line: #ddd8ce;
+  --line-bright: #b3aca0;
+
+  --text: #14120f;
+  --text-dim: #4a4640;
+  --text-mute: #6b655e;
+
+  /* The same four assignments, re-tuned. Yellow and cyan at their dark-theme
+     brightness are unreadable on paper — they measure under 2:1 — so each one
+     is darkened until it clears the floor while keeping its identity. */
+  --red: #c62a18;
+  --yellow: #8a6100;
+  --cyan: #0b6079;
+  --violet: #5b3fd6;
+
+  --on-accent: #ffffff;
+
+  --accent: var(--red);
+  --warm: var(--yellow);
+  --cool: var(--cyan);
+  --alert: var(--red);
+
+  --background: #faf8f4;
+  --paper: #14120f;
+
+  --field-opacity: 0.3;
+}
+
+/*
+  Theme transition. Applied to the properties that actually change, never to
+  `all` — a global transition on `all` also animates layout properties and
+  makes every hover on the page feel laggy.
+
+  Suppressed entirely on the first paint via [data-theme-booting], so the
+  document does not visibly cross-fade from dark to light on load for a reader
+  whose stored choice is light.
+*/
+:root:not([data-theme-booting]) body,
+:root:not([data-theme-booting]) .panel,
+:root:not([data-theme-booting]) .panel-high,
+:root:not([data-theme-booting]) .btn,
+:root:not([data-theme-booting]) .tag {
+  transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body,
+  .panel,
+  .panel-high,
+  .btn,
+  .tag {
+    transition: none !important;
+  }
+}

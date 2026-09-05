@@ -57,6 +57,16 @@ export function SignalField({
 
     const instance = sceneFactories[scene]();
 
+    const readPalette = () => ({
+      background: readToken("--background", "#0a0a0a"),
+      paper: readToken("--paper", "#fffaf3"),
+      red: readToken("--red", "#ff4938"),
+      yellow: readToken("--yellow", "#ffcf4a"),
+      cyan: readToken("--cyan", "#64d8ff"),
+      violet: readToken("--violet", "#a78bfa"),
+      accents: [readToken("--cyan", "#64d8ff"), readToken("--red", "#ff4938"), readToken("--yellow", "#ffcf4a")]
+    });
+
     const state: FieldState = {
       width: 1,
       height: 1,
@@ -64,17 +74,16 @@ export function SignalField({
       time: 0,
       pointer: { x: 0, y: 0 },
       ripples: [],
-      palette: {
-        background: readToken("--background", "#0a0a0a"),
-        paper: readToken("--paper", "#fffaf3"),
-        cyan: readToken("--cyan", "#64d8ff"),
-        red: readToken("--red", "#ff4938"),
-        yellow: readToken("--yellow", "#ffcf4a"),
-        accents: [readToken("--cyan", "#64d8ff"), readToken("--red", "#ff4938"), readToken("--yellow", "#ffcf4a")]
-      }
+      palette: readPalette()
     };
 
-    const fadeFill = instance.trail > 0 ? withAlpha(state.palette.background, 1 - instance.trail) : null;
+    /*
+      The trail fill is derived from the background token, so it has to be
+      recomputed on a theme change too — otherwise a scene with a trail keeps
+      fading toward the old theme's ground and the canvas slowly turns the
+      wrong colour.
+    */
+    let fadeFill = instance.trail > 0 ? withAlpha(state.palette.background, 1 - instance.trail) : null;
 
     let raf = 0;
     let running = false;
@@ -178,6 +187,21 @@ export function SignalField({
       else start();
     };
 
+    /*
+      The palette is read from CSS custom properties, which change wholesale
+      when the theme toggle flips `data-theme` on <html>. Without this the
+      canvas keeps painting the dark theme's colours onto a paper background.
+      Reseeding as well as re-reading matters because scenes bake a colour into
+      each element at seed time.
+    */
+    const themeObserver = new MutationObserver(() => {
+      state.palette = readPalette();
+      fadeFill = instance.trail > 0 ? withAlpha(state.palette.background, 1 - instance.trail) : null;
+      instance.reseed(state);
+      if (!running) paint(0, true);
+    });
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
     resize();
     if (reduceMotion.matches) paint(0, true);
 
@@ -203,6 +227,7 @@ export function SignalField({
 
     return () => {
       stop();
+      themeObserver.disconnect();
       resizeObserver.disconnect();
       visibility.disconnect();
       window.removeEventListener("pointermove", onPointerMove);

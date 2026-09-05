@@ -1,70 +1,19 @@
 @import "tailwindcss";
+@import "./theme.css";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    Mohib Ahmad — personal record
    Durable contract: DESIGN.md at the repository root.
 
-   Direction: editorial, on the original charcoal-and-red identity.
+   Direction: the mathematics is the identity. The paper proves
+   M(P(n,3)) = Z(P(n,3)) = 8 on four divisibility families, and those four
+   moduli — 10, 24, 28, 42 — are the palette. Every color on this site means
+   one of them.
 
-   The palette is the one this site already had. An earlier pass in this
-   redesign swapped red for a teal and it was the wrong call — red was the
-   distinguishing mark of the previous build, it carries at 5.88:1 on the page
-   ground, and there was no problem with it that needed solving. What changed
-   is the discipline around it, not the hue: each accent now means exactly one
-   thing, and none of them is used to liven up a flat area.
-
-   Depth comes from the surface ladder and hairlines. No blurs, no drop shadows.
+   Color tokens live in ./theme.css, in two themes. This file holds type,
+   surfaces, controls and motion, all of which are theme-agnostic because they
+   only ever reference tokens.
    ──────────────────────────────────────────────────────────────────────────── */
-
-:root {
-  /* Surfaces, darkest to lightest. */
-  --bg: #0a0a0a;
-  --surface: #111113;
-  --panel: #16171a;
-  --panel-high: #1e2024;
-
-  --line: #26282d;
-  --line-bright: #3a3d44;
-
-  /* Text. --text-mute is the 5.2:1 floor and is never used below 12px. */
-  --text: #fffaf3;
-  --text-dim: #cfc7bd;
-  --text-mute: #a09a92;
-
-  /* ── Accents ───────────────────────────────────────────────────────────────
-     Three, each with one fixed meaning:
-       red    primary action, links, the current thing   5.88:1 on --bg
-       yellow research and mathematics                  11.4:1 on --bg
-       cyan   systems and engineering                   10.3:1 on --bg
-     An accent chosen for mood rather than meaning is a bug.
-     ─────────────────────────────────────────────────────────────────────── */
-  --red: #ff4938;
-  --yellow: #ffcf4a;
-  --cyan: #64d8ff;
-
-  /* Semantic aliases over the canonical hues, so a component can read by role. */
-  --accent: var(--red);
-  --warm: var(--yellow);
-  --cool: var(--cyan);
-  --alert: var(--red);
-
-  /*
-    Canvas-facing tokens. These are literal hex, NOT `var()` aliases, because
-    the scenes in components/visual read them back with
-    getComputedStyle().getPropertyValue() and hand the string to a parser that
-    expects `#rrggbb`. An unregistered custom property holding `var(--text)`
-    is not guaranteed to come back substituted, and a `var(...)` string parses
-    to NaN — which yields `rgba(NaN,NaN,NaN,a)`, an invalid canvas color that
-    fails silently and leaves strokes painted in whatever style came before.
-    Keep these in sync with --bg and --text above by hand.
-  */
-  --background: #0a0a0a;
-  --paper: #fffaf3;
-
-  --font-display-stack: var(--font-display), "Lyon Text", Newsreader, ui-serif, Georgia, serif;
-  --font-body-stack: var(--font-body), "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-mono-stack: var(--font-mono), "SF Mono", "JetBrains Mono", Consolas, monospace;
-}
 
 * {
   box-sizing: border-box;
@@ -111,7 +60,9 @@ select {
 }
 
 ::selection {
-  background: rgba(255, 73, 56, 0.3);
+  /* color-mix rather than a hardcoded rgba, so the highlight follows the
+     theme's red instead of staying at the dark theme's brightness. */
+  background: color-mix(in srgb, var(--red) 30%, transparent);
   color: var(--text);
 }
 
@@ -261,12 +212,17 @@ p {
 .btn-primary {
   background: var(--red);
   border-color: var(--red);
-  color: #0a0a0a;
+  /* Dark text on bright red in the dark theme; white on deep red in light.
+     A single hardcoded value cannot serve both and was #0a0a0a, which on the
+     light theme's red measured under 2:1. */
+  color: var(--on-accent);
 }
 
 .btn-primary:hover {
-  background: #ff6555;
-  border-color: #ff6555;
+  /* Lift toward the text colour, which brightens on dark and deepens on
+     light — the correct direction in both cases. */
+  background: color-mix(in srgb, var(--red) 86%, var(--text));
+  border-color: color-mix(in srgb, var(--red) 86%, var(--text));
 }
 
 .btn-ghost {
@@ -286,7 +242,7 @@ p {
 }
 
 .btn-warm:hover {
-  background: rgba(255, 207, 74, 0.12);
+  background: color-mix(in srgb, var(--yellow) 12%, transparent);
 }
 
 .tag {
@@ -425,6 +381,51 @@ p {
 }
 
 /*
+  The signature mark's motion.
+
+  Two independent rotations rather than one: the marked roots orbit slowly, and
+  a single arm sweeps against them. A rigid spin of the whole figure reads as a
+  loading spinner; two rates reading against each other read as a mechanism.
+
+  `--orbit-duration` is set per instance from the modulus, so 10 turns in 60s
+  and 42 in 252s. Both are linear and continuous — an eased loop has a visible
+  stall at the seam, and at this duration the stall is the only thing anyone
+  would notice.
+
+  Nothing fades in or out. The mark is fully drawn in the server HTML and the
+  animation only moves it, so with JS off, with reduced motion set, or in a
+  print, the mathematics is still correct and still legible.
+*/
+@keyframes roots-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.roots-orbit,
+.roots-sweep {
+  /* The SVG viewBox is centred on the origin, so 0 0 is the circle's centre.
+     `transform-box: view-box` is what makes that true — without it the origin
+     is the element's own bounding box, and the group orbits its own centroid
+     instead of the circle. */
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .roots-orbit {
+    animation: roots-turn var(--orbit-duration, 120s) linear infinite;
+  }
+
+  .roots-sweep {
+    /* Counter-rotating, and faster. The ratio is deliberately not an integer
+       multiple of the orbit, so the arm never repeatedly lands on the same
+       root. */
+    animation: roots-turn calc(var(--orbit-duration, 120s) / 4.7) linear infinite reverse;
+  }
+}
+
+/*
   Portrait treatment. The photograph was shot against motion-blurred green
   foliage, which fights a near-black page. A light desaturation and a lift in
   contrast settle it into the surface without turning it into a silhouette —
@@ -444,8 +445,49 @@ p {
   lit. The red in the shirt survives, which is worth keeping because it is the
   site's accent hue.
 */
+/*
+  The low wash behind the portrait, so the subject sits in a space rather than
+  floating on a flat void. Nothing reads as a "glow" at this strength; it just
+  stops the four-sided dissolve looking like a hole cut in the page.
+
+  It was a Tailwind arbitrary value with the dark theme's red and yellow
+  hardcoded as rgba, which broke the rule that every color is defined in both
+  themes: on paper a 10% #ff4938 wash tints the whole right-hand column pink.
+  `color-mix` against the live tokens means each theme washes with its own red,
+  and the light theme washes at a third of the strength because a warm veil on
+  a warm paper ground has far less room before it reads as a stain.
+*/
+.portrait-wash {
+  background: radial-gradient(
+    ellipse 62% 58% at 58% 44%,
+    color-mix(in srgb, var(--red) 10%, transparent) 0%,
+    color-mix(in srgb, var(--yellow) 4%, transparent) 45%,
+    transparent 78%
+  );
+}
+
+:root[data-theme="light"] .portrait-wash {
+  background: radial-gradient(
+    ellipse 62% 58% at 58% 44%,
+    color-mix(in srgb, var(--red) 4%, transparent) 0%,
+    color-mix(in srgb, var(--yellow) 2%, transparent) 45%,
+    transparent 78%
+  );
+}
+
 .portrait-grade {
   filter: saturate(0.5) contrast(1.02) brightness(1.02);
+}
+
+/* On paper the photograph needs less desaturation and no lift: the ground is
+   no longer competing with the foliage, and brightening against white just
+   flattens the subject. */
+:root[data-theme="light"] .portrait-grade {
+  filter: saturate(0.72) contrast(1.04) brightness(0.99);
+}
+
+:root[data-theme="light"] .portrait-framed {
+  filter: saturate(0.8) contrast(1.03) brightness(0.99);
 }
 
 /*

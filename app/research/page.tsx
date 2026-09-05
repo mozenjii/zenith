@@ -4,10 +4,13 @@ import Link from "next/link";
 import { SiteFooter } from "@/components/navigation/SiteFooter";
 import { TopNav } from "@/components/navigation/TopNav";
 import { Section } from "@/components/ui/Section";
+import { RootsSignature, RootsSignatureBlock } from "@/components/visual/RootsSignature";
+import { pageModulus } from "@/components/visual/rootsOfUnity";
 import { profile } from "@/data/profile";
 import { projects } from "@/data/projects";
 import {
   coveredModuli,
+  modulusColors,
   preprint,
   rationalCertificates,
   researchTracks,
@@ -35,12 +38,25 @@ export default function ResearchPage() {
               that before the title is the difference between a portfolio a
               referee trusts and one they stop reading.
             */}
-            <p className="label flex flex-wrap items-center gap-x-3 gap-y-2 text-[var(--warm)]">
-              <span className="mark bg-[var(--yellow)]" aria-hidden />
-              Preprint · complete, not yet posted or submitted
-            </p>
+            <div className="flex items-start justify-between gap-10">
+              <div className="min-w-0">
+                <p className="label flex flex-wrap items-center gap-x-3 gap-y-2 text-[var(--warm)]">
+                  <span className="mark bg-[var(--yellow)]" aria-hidden />
+                  Preprint · complete, not yet posted or submitted
+                </p>
 
-            <h1 className="display-title mt-6 text-[clamp(1.5rem,3.4vw,2.375rem)]">{preprint.title}</h1>
+                <h1 className="display-title mt-6 text-[clamp(1.5rem,3.4vw,2.375rem)]">{preprint.title}</h1>
+              </div>
+
+              {/* This page's signature is 42 — the modulus with two distinct
+                  certificates, and the only one where the mark could have been
+                  drawn two ways. */}
+              <RootsSignature
+                modulus={pageModulus.research}
+                size={132}
+                className="mt-1 hidden shrink-0 lg:block"
+              />
+            </div>
 
             <p className="mt-8 text-[0.9375rem] text-[var(--text-dim)]">
               {preprint.authors} · Independent Researcher ·{" "}
@@ -118,6 +134,42 @@ export default function ResearchPage() {
           </ol>
         </Section>
 
+        {/*
+          This section is the legend for the entire site's color system, and it
+          is placed inside the mathematics rather than on a style page because
+          that is the only place it means anything. Four certificates, four
+          colors, and every red, yellow, cyan or violet anywhere on this site
+          refers back to one of these four rows.
+
+          Each mark is computed from `rationalCertificates` — the marked points
+          are the primitive roots of that certificate's cyclotomic factors, at
+          their real positions on the unit circle. Nothing is drawn by eye.
+        */}
+        <Section
+          id="families"
+          title="The four families"
+          context="The result holds whenever n is divisible by one of these four numbers, and together they have natural density 1/6. Each mark below is that modulus's roots of unity, with the certificate's eight roots picked out where they actually sit."
+        >
+          <div className="grid gap-x-10 gap-y-9 sm:grid-cols-2 xl:grid-cols-4">
+            {coveredModuli.map((modulus) => (
+              <RootsSignatureBlock key={modulus} modulus={modulus} />
+            ))}
+          </div>
+
+          <p className="prose-measure mt-12 text-[0.9375rem] leading-8 text-[var(--text-dim)]">
+            The four are not interchangeable.{" "}
+            <span className="mono" style={{ color: "var(--red)" }}>10</span> is the smallest and its
+            certificate is every tenth root of unity except <code className="math">z = ±1</code>.{" "}
+            <span className="mono" style={{ color: "var(--yellow)" }}>24</span> needs three
+            cyclotomic factors rather than two.{" "}
+            <span className="mono" style={{ color: "var(--cyan)" }}>28</span> has no rational
+            factorization at all — its certificate is genuinely algebraic, which is why its mark has
+            nothing picked out. And{" "}
+            <span className="mono" style={{ color: "var(--violet)" }}>42</span> carries two distinct
+            certificates, <code className="math">Φ₃·Φ₁₄</code> and <code className="math">Φ₆·Φ₇</code>.
+          </p>
+        </Section>
+
         <Section
           id="certificates"
           title="The rational certificates"
@@ -149,24 +201,47 @@ export default function ResearchPage() {
                 </tr>
               </thead>
               <tbody>
-                {rationalCertificates.map((certificate) => (
-                  <tr key={certificate.factors} className="border-b border-[var(--line)]">
-                    <td className="mono py-3.5 pr-6 text-sm text-[var(--text)]">{certificate.factors}</td>
-                    <td className="mono py-3.5 pr-6 text-sm text-[var(--text-dim)]">{certificate.p}</td>
-                    <td className="mono py-3.5 pr-6 text-sm text-[var(--text-dim)]">{certificate.q}</td>
-                    <td className="mono py-3.5 pr-6 text-sm text-[var(--text-dim)]">{certificate.tau}</td>
-                    <td className="mono py-3.5 text-sm text-[var(--warm)]">{certificate.L}</td>
-                  </tr>
-                ))}
+                {rationalCertificates.map((certificate) => {
+                  /*
+                    The modulus column is colored only when that modulus is one
+                    of the four the result covers. L = 40 is rational but not
+                    covered, so it stays plain — and that is the point of
+                    coloring it at all: the two sets are genuinely different,
+                    40 is in one and 28 is in the other, and a reader can see
+                    that mismatch in the table instead of having to be told.
+                  */
+                  const covered = (coveredModuli as readonly number[]).includes(certificate.L);
+                  const token = covered ? modulusColors[certificate.L as (typeof coveredModuli)[number]].token : null;
+                  return (
+                    <tr key={certificate.factors} className="border-b border-[var(--line)]">
+                      <td className="mono py-3.5 pr-6 text-sm text-[var(--text)]">{certificate.factors}</td>
+                      <td className="mono py-3.5 pr-6 text-sm text-[var(--text-dim)]">{certificate.p}</td>
+                      <td className="mono py-3.5 pr-6 text-sm text-[var(--text-dim)]">{certificate.q}</td>
+                      <td className="mono py-3.5 pr-6 text-sm text-[var(--text-dim)]">{certificate.tau}</td>
+                      <td className="mono py-3.5 text-sm">
+                        <span style={token ? { color: `var(${token})` } : undefined} className={token ? "" : "text-[var(--text-dim)]"}>
+                          {certificate.L}
+                        </span>
+                        {!covered ? (
+                          <span className="label-sm ml-2 text-[var(--text-mute)]">rational, not covered</span>
+                        ) : null}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
 
           <p className="prose-measure mt-8 text-[0.9375rem] leading-8 text-[var(--text-dim)]">
-            The rational moduli are <span className="mono text-[var(--warm)]">10, 24, 40, 42</span>. The
-            certificates prove the result on <span className="mono text-[var(--warm)]">{coveredModuli.join(", ")}</span>{" "}
-            — so the modulus-28 certificate is not rational at all, and is genuinely algebraic. Those
-            indices have natural density <code className="math">1/6</code>.
+            The rational moduli are <span className="mono text-[var(--text)]">10, 24, 40, 42</span>,
+            but the result is proved on{" "}
+            <span className="mono text-[var(--text)]">{coveredModuli.join(", ")}</span>. The two lists
+            differ in both directions, and each difference is a fact about the construction:{" "}
+            <span className="mono text-[var(--text)]">40</span> admits a rational certificate that
+            adds no new covered indices, since every multiple of 40 is already a multiple of 10; and{" "}
+            <span className="mono" style={{ color: "var(--cyan)" }}>28</span> is covered by a
+            certificate that is not rational at all.
           </p>
         </Section>
 

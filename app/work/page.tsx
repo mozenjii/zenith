@@ -4,6 +4,8 @@ import { SiteFooter } from "@/components/navigation/SiteFooter";
 import { TopNav } from "@/components/navigation/TopNav";
 import { ProjectCard } from "@/components/project/ProjectCard";
 import { Section } from "@/components/ui/Section";
+import { RootsSignature } from "@/components/visual/RootsSignature";
+import { pageModulus } from "@/components/visual/rootsOfUnity";
 import { archive, flagshipProjects, privateWork, supportingProjects } from "@/data/projects";
 import { profile } from "@/data/profile";
 import { uniqueStack } from "@/data/stack";
@@ -33,7 +35,17 @@ export default function WorkPage() {
       <main id="main">
         <header className="px-5 pb-4 pt-14 sm:px-8 lg:pt-20">
           <div className="mx-auto max-w-[1240px]">
-            <h1 className="display text-[clamp(2.5rem,6vw,4rem)]">Work</h1>
+            <div className="flex items-start justify-between gap-8">
+              <h1 className="display text-[clamp(2.5rem,6vw,4rem)]">Work</h1>
+              {/* The page's signature mark. 24 is this page's modulus, so
+                  everything yellow below — the founding-role counts, the
+                  private-work tier — is reading from the same assignment. */}
+              <RootsSignature
+                modulus={pageModulus.work}
+                size={104}
+                className="mt-1 hidden shrink-0 sm:block"
+              />
+            </div>
             <p className="prose-measure mt-6 text-[1.0625rem] leading-8 text-[var(--text-dim)]">
               Ordered by weight, not by date. Every project states what it does not do as clearly as
               what it does — the limitations are on each case study, not hidden behind the pitch.

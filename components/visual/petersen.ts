@@ -8,6 +8,11 @@
 // cycle, and the one helper actually needed at runtime is defined below.
 import type { FieldState, SceneInstance } from "./scenes";
 
+// Pure geometry, no data module and no cycle. This is the same function the
+// flat SVG signature mark uses, so the marked roots here and the marked roots
+// in every page header are literally the same eight numbers.
+import { certificateRootIndices } from "./cyclotomic";
+
 /** Local copy of the alpha helper, to keep this module free of runtime imports. */
 function withAlpha(hex: string, alpha: number) {
   const n = Number.parseInt(hex.slice(1), 16);
@@ -45,6 +50,18 @@ function withAlpha(hex: string, alpha: number) {
 const STEP = 3;
 /** The four families the certificates cover. */
 const MODULI = [10, 24, 28, 42];
+
+/**
+ * Which palette key each modulus wears, in the same order.
+ *
+ * This is what makes the color system legible in motion rather than only in
+ * the legend on /research: as the instrument cycles 10 - 24 - 28 - 42 its
+ * inner chords go red - yellow - cyan - violet, so a reader watching one full
+ * cycle has seen the whole palette explained without reading a word. The
+ * structural parts, outer cycle and spokes, stay neutral, because they are the
+ * same at every n and coloring them would say otherwise.
+ */
+const MODULUS_KEYS = ["red", "yellow", "cyan", "violet"] as const;
 /** Seconds each modulus is held, and the crossfade between them. */
 const HOLD = 6.5;
 const FADE = 1.4;
@@ -102,7 +119,8 @@ export function petersenScene(): SceneInstance {
     state: FieldState,
     graph: Graph,
     spin: number,
-    alpha: number
+    alpha: number,
+    accent: string
   ) => {
     if (alpha <= 0.004) return;
 
@@ -129,7 +147,7 @@ export function petersenScene(): SceneInstance {
     }
     segments.sort((a, b) => b.z - a.z);
 
-    const { paper, red, yellow } = state.palette;
+    const { paper } = state.palette;
     for (const seg of segments) {
       // Nearer edges are brighter and heavier; this is the whole depth cue.
       const near = 1 - (seg.z + 1) / 2;
@@ -138,11 +156,13 @@ export function petersenScene(): SceneInstance {
         ctx.strokeStyle = withAlpha(paper, fade * 0.68);
         ctx.lineWidth = 0.7 + near * 0.9;
       } else if (seg.kind === 1) {
-        ctx.strokeStyle = withAlpha(red, fade * 0.5);
+        // Spokes are structural and identical at every n, so they stay neutral.
+        ctx.strokeStyle = withAlpha(paper, fade * 0.3);
         ctx.lineWidth = 0.5 + near * 0.5;
       } else {
-        // The inner step-3 chords are the structure the theorem acts on.
-        ctx.strokeStyle = withAlpha(yellow, fade * 0.92);
+        // The inner step-3 chords are the structure the theorem acts on, so
+        // they carry this modulus's color.
+        ctx.strokeStyle = withAlpha(accent, fade * 0.95);
         ctx.lineWidth = 0.8 + near * 1.25;
       }
       ctx.beginPath();
@@ -160,7 +180,7 @@ export function petersenScene(): SceneInstance {
       ctx.fill();
 
       const nearI = 1 - (pi[i].z + 1) / 2;
-      ctx.fillStyle = withAlpha(yellow, (0.26 + nearI * 0.62) * alpha);
+      ctx.fillStyle = withAlpha(accent, (0.26 + nearI * 0.62) * alpha);
       ctx.beginPath();
       ctx.arc(pi[i].x, pi[i].y, 0.9 + nearI * 1.2, 0, Math.PI * 2);
       ctx.fill();
@@ -172,7 +192,13 @@ export function petersenScene(): SceneInstance {
    * Drawn flat behind the graph, because the roots live in the complex plane
    * and tilting them would be a lie about what they are.
    */
-  const drawUnitCircle = (ctx: CanvasRenderingContext2D, state: FieldState, n: number, alpha: number) => {
+  const drawUnitCircle = (
+    ctx: CanvasRenderingContext2D,
+    state: FieldState,
+    n: number,
+    alpha: number,
+    accent: string
+  ) => {
     if (alpha <= 0.004) return;
     const r = radius * 1.28;
     ctx.strokeStyle = withAlpha(state.palette.paper, 0.09 * alpha);
@@ -181,14 +207,24 @@ export function petersenScene(): SceneInstance {
     ctx.arc(cx, cy, r, 0, Math.PI * 2);
     ctx.stroke();
 
-    // The n-th roots of unity, with the eight that carry the certificate lifted
-    // out. Their angular positions are real: k/n of a full turn.
+    /*
+      The n-th roots of unity, with the certificate's eight lifted out at their
+      real positions.
+
+      This used to mark every root where `k % round(n/8) === 0`, which is an
+      evenly spaced sample and not a certificate at all - at n = 10 it marked
+      all ten. The roots of a cyclotomic factor are the primitive d-th roots of
+      unity, so the marked set is computable, and now is computed. At n = 28 the
+      set is empty, because that certificate is algebraic and has no cyclotomic
+      factorization; the ring is drawn bare, which is the truth about it.
+    */
+    const marked = new Set(certificateRootIndices(n));
     for (let k = 0; k < n; k += 1) {
       const a = (k / n) * Math.PI * 2 - Math.PI / 2;
       const x = cx + Math.cos(a) * r;
       const y = cy + Math.sin(a) * r;
-      const carries = k % Math.max(1, Math.round(n / 8)) === 0;
-      ctx.fillStyle = withAlpha(carries ? state.palette.red : state.palette.paper, (carries ? 0.7 : 0.15) * alpha);
+      const carries = marked.has(k);
+      ctx.fillStyle = withAlpha(carries ? accent : state.palette.paper, (carries ? 0.78 : 0.15) * alpha);
       ctx.beginPath();
       ctx.arc(x, y, carries ? 2.1 : 1.1, 0, Math.PI * 2);
       ctx.fill();
@@ -213,6 +249,8 @@ export function petersenScene(): SceneInstance {
 
       const currentGraph = graphs[index];
       const nextGraph = graphs[(index + 1) % graphs.length];
+      const currentAccent = state.palette[MODULUS_KEYS[index]];
+      const nextAccent = state.palette[MODULUS_KEYS[(index + 1) % MODULUS_KEYS.length]];
 
       // Crossfade only during the last FADE seconds of each hold.
       const t = withinCycle > HOLD ? (withinCycle - HOLD) / FADE : 0;
@@ -220,11 +258,11 @@ export function petersenScene(): SceneInstance {
 
       const spin = elapsed * 0.15;
 
-      drawUnitCircle(ctx, state, currentGraph.n, 1 - eased);
-      if (eased > 0) drawUnitCircle(ctx, state, nextGraph.n, eased);
+      drawUnitCircle(ctx, state, currentGraph.n, 1 - eased, currentAccent);
+      if (eased > 0) drawUnitCircle(ctx, state, nextGraph.n, eased, nextAccent);
 
-      drawGraph(ctx, state, currentGraph, spin, 1 - eased);
-      if (eased > 0) drawGraph(ctx, state, nextGraph, spin, eased);
+      drawGraph(ctx, state, currentGraph, spin, 1 - eased, currentAccent);
+      if (eased > 0) drawGraph(ctx, state, nextGraph, spin, eased, nextAccent);
     }
   };
 }

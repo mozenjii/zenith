@@ -66,7 +66,45 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
+    /*
+      `suppressHydrationWarning` is required here, and only here.
+
+      The boot script below deliberately mutates this element before React
+      hydrates: it adds `data-theme` and removes `data-theme-booting`. So the
+      server HTML and the live DOM genuinely differ by the time React looks,
+      and React reports that as a hydration mismatch. The difference is the
+      feature, not a bug — it is what prevents the dark-to-light flash — and
+      this attribute is the sanctioned way to say so.
+
+      It suppresses warnings for this element's own attributes only, one level
+      deep. It does not silence anything in the tree below.
+    */
+    <html
+      lang="en"
+      className={`${display.variable} ${body.variable} ${mono.variable}`}
+      data-theme-booting=""
+      suppressHydrationWarning
+    >
+      <head>
+        {/*
+          Theme boot script. Runs before first paint, which is the whole point:
+          applying the stored theme from a React effect would let the page
+          paint dark and then flip, and that flash is worse than having no
+          light mode at all.
+
+          Dark is the default and `prefers-color-scheme` is deliberately NOT
+          consulted — the dark site is the brand, and light is opt-in.
+
+          `data-theme-booting` is removed on the next frame so the CSS colour
+          transitions defined in theme.css do not fire on load and cross-fade
+          the whole document.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('ma-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark')}catch(e){document.documentElement.setAttribute('data-theme','dark')}requestAnimationFrame(function(){document.documentElement.removeAttribute('data-theme-booting')})})()`
+          }}
+        />
+      </head>
       <body>
         {/*
           Skip link. Visually hidden until focused, then it becomes the first

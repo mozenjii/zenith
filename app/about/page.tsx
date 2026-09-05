@@ -4,6 +4,8 @@ import Image from "next/image";
 import { SiteFooter } from "@/components/navigation/SiteFooter";
 import { TopNav } from "@/components/navigation/TopNav";
 import { Section } from "@/components/ui/Section";
+import { RootsSignatureBlock } from "@/components/visual/RootsSignature";
+import { pageModulus } from "@/components/visual/rootsOfUnity";
 import { foundingRoleCount, roles } from "@/data/career";
 import { awards, educationLadder, profile } from "@/data/profile";
 import { largestLayerSize, stackLayers, uniqueStack } from "@/data/stack";
@@ -59,6 +61,21 @@ export default function AboutPage() {
                   className="portrait-framed object-cover"
                 />
               </div>
+
+              {/*
+                28 is the odd one out and this is the page that says so: the
+                certificate at this modulus exists, but the paper proves it is
+                genuinely algebraic, so there is no cyclotomic factorization
+                and the mark has no eight roots to pick out. It draws the ring
+                and marks nothing.
+
+                That is the honest render, and it is not special-cased — 28
+                simply has no row in `rationalCertificates`, so the component
+                finds nothing to mark. Under the portrait rather than beside
+                the heading, because two figures competing for the same corner
+                is the clutter this rebuild was meant to remove.
+              */}
+              <RootsSignatureBlock modulus={pageModulus.about} className="mt-8 max-w-[300px]" />
             </div>
           </div>
         </header>

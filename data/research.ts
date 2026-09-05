@@ -132,6 +132,30 @@ export const rationalCertificates: Certificate[] = [
 /** The divisibility families the certificates actually cover. */
 export const coveredModuli = [10, 24, 28, 42] as const;
 
+export type Modulus = (typeof coveredModuli)[number];
+
+/**
+ * One color per certificate modulus, and this is the site's whole palette.
+ *
+ * The paper proves M(P(n,3)) = Z(P(n,3)) = 8 on exactly four divisibility
+ * families, so there are exactly four accents and each one means a modulus and
+ * nothing else. Red carries 10 — the first and smallest certificate — and
+ * doubles as the primary action color.
+ *
+ * `token` is the CSS custom property, so both themes resolve automatically.
+ *
+ * `note` says what makes that family different from the other three, and
+ * deliberately does NOT name the factorization — every surface that shows a
+ * note also shows the factors on the line above it, and repeating them there
+ * reads as padding in print and as a stutter in a screen reader.
+ */
+export const modulusColors: Record<Modulus, { token: string; note: string }> = {
+  10: { token: "--red", note: "the smallest certificate" },
+  24: { token: "--yellow", note: "three cyclotomic factors, not two" },
+  28: { token: "--cyan", note: "algebraic, not rational" },
+  42: { token: "--violet", note: "two distinct certificates" }
+};
+
 /**
  * Verification evidence shipped with the paper. Numbers only where a recorded
  * output file backs them; each corresponds to a file in the supplement.

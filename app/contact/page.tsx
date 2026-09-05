@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { ArrowUpRight, Download, Mail } from "lucide-react";
 import { SiteFooter } from "@/components/navigation/SiteFooter";
 import { TopNav } from "@/components/navigation/TopNav";
+import { RootsSignature } from "@/components/visual/RootsSignature";
 import { SignalField } from "@/components/visual/SignalField";
+import { pageModulus } from "@/components/visual/rootsOfUnity";
 import { currentRole } from "@/data/career";
 import { profile } from "@/data/profile";
 
@@ -66,10 +68,19 @@ export default function ContactPage() {
           there.
         */}
         <header className="relative isolate overflow-hidden px-5 pb-20 pt-14 sm:px-8 lg:pb-28 lg:pt-20">
-          <SignalField scene="galaxy" className="-z-10" speed={0.85} density={1.15} fade="left" />
+          <SignalField scene="galaxy" className="-z-10 opacity-[calc(var(--field-opacity)+0.35)]" speed={0.85} density={1.15} fade="left" />
 
           <div className="relative mx-auto max-w-[1240px]">
-            <h1 className="display text-[clamp(2.5rem,6vw,4rem)]">Get in touch</h1>
+            <div className="flex items-start justify-between gap-8">
+              <h1 className="display text-[clamp(2.5rem,6vw,4rem)]">Get in touch</h1>
+              {/* 10 here, the same as the home page: red is the action color
+                  and this page is nothing but actions. */}
+              <RootsSignature
+                modulus={pageModulus.contact}
+                size={104}
+                className="mt-1 hidden shrink-0 sm:block"
+              />
+            </div>
             <p className="prose-measure mt-6 text-[1.125rem] leading-8 text-[var(--text-dim)]">
               Currently {currentRole.title.toLowerCase()} at {currentRole.org}, in {profile.location} —{" "}
               {profile.timezone}. Open to conversations about engineering roles, research, and

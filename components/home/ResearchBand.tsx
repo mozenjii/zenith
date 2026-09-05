@@ -1,7 +1,7 @@
 import { ArrowRight, Download } from "lucide-react";
 import Link from "next/link";
 import { SignalField } from "@/components/visual/SignalField";
-import { coveredModuli, preprint, verification } from "@/data/research";
+import { coveredModuli, modulusColors, preprint, verification } from "@/data/research";
 
 /**
  * The research band, and the one place on the site with expensive motion.
@@ -22,7 +22,7 @@ export function ResearchBand() {
       className="relative isolate overflow-hidden border-t border-[var(--line)] bg-[var(--surface)] px-5 py-20 sm:px-8 lg:py-28"
       aria-labelledby="research-title"
     >
-      <SignalField scene="petersen" className="-z-10 opacity-[0.55]" speed={0.9} fade="edges" />
+      <SignalField scene="petersen" className="-z-10 opacity-[var(--field-opacity)]" speed={0.9} fade="edges" />
 
       <div className="mx-auto max-w-[1240px]">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
@@ -39,14 +39,29 @@ export function ResearchBand() {
               {preprint.plainSummary}
             </p>
 
+            {/*
+              The caption is what turns the animation from decoration into
+              evidence, so it names the moduli in the colors the instrument is
+              using at that moment. A reader who watches one full cycle and
+              reads this line has been told the site's entire color system
+              without ever being shown a swatch.
+            */}
             <p className="prose-measure mt-5 text-[0.9375rem] leading-8 text-[var(--text-dim)]">
               The shape rotating behind this section is{" "}
               <code className="math">P(n,3)</code> — the graph the paper is about. Its outer cycle,
               spokes, and step-3 inner chords are drawn exactly as defined, and{" "}
               <code className="math">n</code> cycles through{" "}
-              <span className="mono text-[var(--warm)]">{coveredModuli.join(", ")}</span>: the four
-              divisibility families for which the certificates prove{" "}
-              <code className="math">M(P(n,3)) = Z(P(n,3)) = 8</code>.
+              {coveredModuli.map((modulus, index) => (
+                <span key={modulus}>
+                  <span className="mono" style={{ color: `var(${modulusColors[modulus].token})` }}>
+                    {modulus}
+                  </span>
+                  {index < coveredModuli.length - 1 ? ", " : ""}
+                </span>
+              ))}
+              : the four divisibility families for which the certificates prove{" "}
+              <code className="math">M(P(n,3)) = Z(P(n,3)) = 8</code>. The chords change color with{" "}
+              <code className="math">n</code>, and every color on this site means one of these four.
             </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-3">

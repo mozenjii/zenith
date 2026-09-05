@@ -40,8 +40,26 @@ better organising principle.
 
 ## Tokens
 
-Defined in `app/globals.css` on `:root`. Never redefine a colour inside a media
-query — this site is dark-only by deliberate choice, and the palette is committed.
+Defined in `app/theme.css`, in two themes. `app/globals.css` holds type, surfaces,
+controls and motion, all of which reference tokens and are therefore theme-agnostic.
+
+**Dark is declared on bare `:root`, and `prefers-color-scheme` is never consulted.**
+Dark is the brand choice, not a response to an OS setting: a reader whose system is
+light still gets the dark site first. Light applies only under an explicit
+`[data-theme="light"]`, which the toggle sets and `localStorage` remembers.
+
+Two rules that cannot be broken:
+
+1. **Every color is defined in both blocks.** A token that exists in only one theme
+   ships as invisible text. This is also why a hardcoded `rgba()` anywhere in a
+   component is a bug — see `.portrait-wash`, which was exactly that.
+2. **Never `#fff` on `#000`.** Maximum-contrast pairs are where halation is worst.
+   The site pairs `#fffaf3` with `#0a0a0a`, and `#14120f` with `#faf8f4`.
+
+**Why light mode exists.** On a dark page the pupil dilates, depth of field drops,
+and thin light strokes smear — halation, worst for astigmatic readers. The portfolio
+is scanned in bursts and dark suits it. `/research` is the one surface anyone reads
+end to end, and that reader should get the choice.
 
 ### Surfaces
 
@@ -69,40 +87,66 @@ scenes, which read tokens back with `getComputedStyle()` and cannot parse a
 `--text-mute` is the floor. Anything below 5:1 does not ship, and `--text-mute` is
 never used under 12px.
 
-### Accents
+### Accents — the palette is the theorem
 
-| Token | Value | Meaning | Contrast on `--bg` |
-| --- | --- | --- | --- |
-| `--red` | `#ff4938` | The site's color. Identity, actions, links, anything built | 5.88:1 |
-| `--yellow` | `#ffcf4a` | Research, mathematics, foundations, academic results | 11.4:1 |
-| `--cyan` | `#64d8ff` | Retired. Token kept only for the unused canvas scenes | 10.3:1 |
+There are exactly four accents, because the paper proves
+`M(P(n,3)) = Z(P(n,3)) = 8` on exactly four divisibility families. Each color means
+one modulus and nothing else, site-wide.
 
-**Two colors, not three.** Cyan was originally the primary and split the accent
-budget three ways, which meant red never accumulated enough presence on any
-one screen to read as the site's color — the entire point of having one. It is
-retired from the interface.
+| Modulus | Token | Dark | Light | Why this family is different |
+| --- | --- | --- | --- | --- |
+| 10 | `--red` | `#ff4938` | `#c62a18` | The smallest certificate, and red was already the identity |
+| 24 | `--yellow` | `#ffcf4a` | `#8a6100` | Three cyclotomic factors, not two |
+| 28 | `--cyan` | `#64d8ff` | `#0b6079` | Algebraic, not rational — the only family with no factorization |
+| 42 | `--violet` | `#a78bfa` | `#5b3fd6` | Two distinct certificates, Φ₃·Φ₁₄ and Φ₆·Φ₇ |
 
-**Accents carry meaning, never mood.** Yellow means "this is the research
-thread". Red means everything else that matters. An accent used because a
-section looked flat is a bug.
+The mapping lives in `modulusColors` in `data/research.ts`, and the legend is the
+"four families" section of `/research` — inside the mathematics, because that is
+the only place it means anything.
 
-**Where red has to appear.** Red is not button trim; it is the identity. It
-must be present on every screen, which in practice means:
+**Do not add a fifth accent, and do not use one of these four for anything that is
+not its modulus.** An accent chosen because a section looked flat is a bug. This is
+the whole reason the system is uncopyable: it is not a palette, it is a result.
 
-- the surname in the hero `<h1>`, which is the largest area of color on the site
+The light values are not the dark values dimmed. Yellow and cyan at dark-theme
+brightness measure under 2:1 on paper, so each is darkened until it clears 4.5:1
+while keeping its identity. Both themes are audited; see **Verification**.
+
+**Red is the primary action color as well as modulus 10.** That double duty is
+deliberate — 10 is the first and smallest certificate — and it is what keeps red on
+every screen:
+
+- the surname in the hero `<h1>`, the largest area of color on the site
 - a `.mark` rule above every section title
-- the active navigation item
-- every category mark on a project card except research and foundations
-- the primary button, and link hover
-- the spokes of the P(n,3) instrument
+- the active navigation item, the primary button, and link hover
+- the home and `/contact` signature marks
+- the inner chords of the P(n,3) instrument while it is showing n ≡ 0 (mod 10)
 
-**Area versus frequency.** Increase how often red recurs, not how much surface
-it covers. `#ff4938` is saturated, and large red fills on near-black vibrate
-and hurt reading. Red as ink, rules and small fills; never as a page-sized
-background.
+**Area versus frequency.** Increase how often an accent recurs, not how much surface
+it covers. These hues are saturated, and large fills on near-black vibrate and hurt
+reading. Accents as ink, rules and small fills; never as a page-sized background.
+Never accent text on an accent fill — use `--on-accent`, which flips per theme.
 
-Accents are used as ink on dark surfaces, or as a fill behind `--bg`-colored
-text. Never accent text on an accent fill.
+### The signature mark
+
+Every page header carries the unit circle with the L-th roots of unity as radial
+ticks and that page's certificate roots marked in that page's color
+(`components/visual/RootsSignature.tsx`). It is the recurrence that makes the
+identity an identity rather than one clever hero.
+
+- **The marked positions are computed, never drawn by eye.** The roots of Φ_d are the
+  primitive d-th roots of unity, so `components/visual/cyclotomic.ts` computes them.
+  An earlier canvas version marked every root where `k % round(n/8) === 0`, which is
+  an evenly spaced sample and not a certificate — at n = 10 it marked all ten.
+- **Modulus 28 marks nothing, and that is correct.** Its certificate is algebraic, so
+  there are no primitive-root positions to mark. This falls out of 28 having no row
+  in `rationalCertificates`; it is not special-cased on the number.
+- **Marked roots are filled nodes, unmarked ones are ticks.** A ring of small filled
+  circles is the generated-UI status-dot signature. Ticks read as a mathematical
+  scale. Nothing pulses, ever.
+- Page assignment is `pageModulus`: home 10, work 24, about 28, research 42, contact
+  10. Server-rendered SVG with CSS-only motion — a canvas in five headers would mean
+  five more rAF loops and a hydration boundary for something that never takes input.
 
 ### Type
 
@@ -164,6 +208,15 @@ divisibility families the paper actually covers. (10, 24, 40 and 42 are the
 *rational* moduli, which is a different set; 28 is covered but not rational,
 and 40 is rational but not a covered family. Do not conflate them.)
 
+**The instrument teaches the palette.** Its inner step-3 chords take the current
+modulus's color, so one full cycle runs red → yellow → cyan → violet and a reader
+who never scrolls to `/research` has still been shown what the four colors mean.
+The outer cycle and the spokes stay neutral, because they are identical at every n
+and coloring them would claim otherwise.
+
+Its unit circle marks the same computed root positions as the flat signature mark —
+literally the same function, from `cyclotomic.ts`. The two can never disagree.
+
 Rules it must obey:
 
 - **No 3D library.** Points are rotated with a hand-rolled matrix and projected to
@@ -173,6 +226,11 @@ Rules it must obey:
   offscreen, pause when the tab is hidden, DPR capped at 2, resize via
   `ResizeObserver`, palette read from CSS tokens, and one static frame under
   reduced motion.
+- The host watches `data-theme` with a `MutationObserver` and re-reads the palette,
+  so the canvas follows the toggle. Canvas colors come from `--background` and
+  `--paper`, which are **literal hex duplicates** of `--bg` and `--text`: the scenes
+  hand the string to a parser expecting `#rrggbb`, and a `var()` reference parses to
+  `NaN`, producing `rgba(NaN,NaN,NaN,a)` — an invalid color that fails silently.
 - Target 60fps at 1440×900; degrade by vertex count, not frame rate.
 - `aria-hidden`, `pointer-events: none`. It renders no information that is not
   also in text.
@@ -264,11 +322,21 @@ the part that matters most. The site's whole value is that it does not overclaim
 Before any UI change is called complete:
 
 - Real browser, at 390 / 768 / 1440 widths.
+- **Both themes, on all five routes.** A light theme that is wired but never
+  rendered is not a light theme. Contrast is audited programmatically rather than
+  by eye — walk every text node, resolve its first opaque ancestor background, and
+  assert 4.5:1 (3:1 for large text). Current state: zero failures in either theme.
 - Keyboard traversal end to end; focus visible at every stop.
 - Reduced motion on: no animation, canvas static, all content present.
-- JS disabled: hero text, portrait, and all copy still render.
+- JS disabled: hero text, portrait, signature marks and all copy still render.
 - `npm run typecheck` and `npm run lint` clean.
 
-A tool that reads HTML without executing JavaScript will report this
-client-rendered page as broken when it is not. Check in a browser that runs the
-script.
+Two things about verifying *this* project specifically:
+
+- A tool that reads HTML without executing JavaScript will report this
+  client-rendered page as broken when it is not. Check in a browser that runs the
+  script.
+- The canvas instruments cannot be checked by screenshot — the host pauses them in a
+  background tab, so a hidden tab captures a frozen frame. Front the tab, then read
+  the canvas back with `getImageData` and assert on the pixels. That is how the
+  chord-color cycle was confirmed to follow the modulus.
