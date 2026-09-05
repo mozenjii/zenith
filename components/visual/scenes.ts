@@ -14,9 +14,10 @@
  * palette can never drift from app/globals.css.
  */
 
+import { galaxyScene } from "./galaxy";
 import { petersenScene } from "./petersen";
 
-export type SceneName = "warp" | "constellation" | "ripple" | "flow" | "mesh" | "petersen";
+export type SceneName = "warp" | "constellation" | "ripple" | "flow" | "mesh" | "petersen" | "galaxy";
 
 export type FieldPalette = {
   background: string;
@@ -409,6 +410,7 @@ function meshScene(): SceneInstance {
 export const sceneFactories: Record<SceneName, () => SceneInstance> = {
   warp: warpScene,
   petersen: petersenScene,
+  galaxy: galaxyScene,
   constellation: constellationScene,
   ripple: rippleScene,
   flow: flowScene,

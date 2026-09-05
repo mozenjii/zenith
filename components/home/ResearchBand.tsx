@@ -31,7 +31,7 @@ export function ResearchBand() {
               Preprint · not yet submitted
             </p>
 
-            <h2 id="research-title" className="display mt-5 text-[2rem] sm:text-[2.75rem]">
+            <h2 id="research-title" className="display-title mt-5 text-[clamp(1.375rem,2.6vw,1.875rem)]">
               Weighted Fourier certificates for maximum nullity in generalized Petersen graphs
             </h2>
 

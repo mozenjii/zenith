@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ArrowUpRight, Download, Mail } from "lucide-react";
 import { SiteFooter } from "@/components/navigation/SiteFooter";
 import { TopNav } from "@/components/navigation/TopNav";
+import { SignalField } from "@/components/visual/SignalField";
 import { currentRole } from "@/data/career";
 import { profile } from "@/data/profile";
 
@@ -52,8 +53,22 @@ export default function ContactPage() {
       <TopNav />
 
       <main id="main">
-        <header className="px-5 pb-14 pt-14 sm:px-8 lg:pt-20">
-          <div className="mx-auto max-w-[1240px]">
+        {/*
+          The interactive galaxy lives here rather than on the home page.
+          /contact is the sparsest surface on the site and the end of the
+          reading path, so expensive motion competes with nothing — and the
+          pointer interaction gives a page that is otherwise a list of links
+          something to do. The home hero stays deliberately still.
+
+          `fade="left"` lays a scrim across the copy column only. The vertical
+          scrim was tried first and fades to solid `--background` by its lower
+          edge, which erased half the galaxy to protect text that was not
+          there.
+        */}
+        <header className="relative isolate overflow-hidden px-5 pb-20 pt-14 sm:px-8 lg:pb-28 lg:pt-20">
+          <SignalField scene="galaxy" className="-z-10" speed={0.85} density={1.15} fade="left" />
+
+          <div className="relative mx-auto max-w-[1240px]">
             <h1 className="display text-[clamp(2.5rem,6vw,4rem)]">Get in touch</h1>
             <p className="prose-measure mt-6 text-[1.125rem] leading-8 text-[var(--text-dim)]">
               Currently {currentRole.title.toLowerCase()} at {currentRole.org}, in {profile.location} —{" "}
@@ -95,6 +110,10 @@ export default function ContactPage() {
                 <Download className="h-4 w-4" aria-hidden /> Download resume, PDF
               </a>
             </div>
+
+            <p className="label-sm mt-12 max-w-md text-[var(--text-mute)]">
+              The spiral is P(n,3)&rsquo;s quieter cousin — move the cursor through it.
+            </p>
           </div>
         </header>
       </main>

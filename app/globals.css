@@ -144,6 +144,28 @@ p {
   line-height: 1.03;
 }
 
+/*
+  Long titles that have to be *read*, not glanced at — the paper title above
+  all. Three things separate this from `.display`:
+
+    size     capped near 38px instead of 56px
+    leading  1.22, so descenders and ascenders on adjacent lines clear
+    measure  44ch, so a 15-word title breaks into three short lines instead
+             of two 75-character sweeps
+
+  `.display` was used here first and the result was genuinely hard to read.
+  Note that `.prose-measure` (66ch) does nothing at display sizes: `ch` scales
+  with the font, so 66ch at 3.5rem is wider than the page. A measure meant to
+  constrain a heading has to be set on the heading's own scale.
+*/
+.display-title {
+  font-family: var(--font-display-stack);
+  font-weight: 400;
+  letter-spacing: -0.012em;
+  line-height: 1.22;
+  max-width: 44ch;
+}
+
 /* The oversized hero setting. Leading goes below 1 because at this size the
    ascenders and descenders carry the rhythm on their own. */
 .display-hero {

@@ -40,9 +40,9 @@ export default function ResearchPage() {
               Preprint · complete, not yet posted or submitted
             </p>
 
-            <h1 className="display prose-measure mt-6 text-[clamp(2.25rem,5vw,3.5rem)]">{preprint.title}</h1>
+            <h1 className="display-title mt-6 text-[clamp(1.5rem,3.4vw,2.375rem)]">{preprint.title}</h1>
 
-            <p className="mt-6 text-[1.0625rem] text-[var(--text-dim)]">
+            <p className="mt-8 text-[0.9375rem] text-[var(--text-dim)]">
               {preprint.authors} · Independent Researcher ·{" "}
               <a
                 href={profile.orcidUrl}
