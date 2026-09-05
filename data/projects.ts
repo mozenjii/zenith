@@ -83,7 +83,6 @@ export const projects: Project[] = [
     ],
     /* No capture yet. The pipeline is documented in the repository README,
        which the Project status link below points at. */
-    media: [],
     links: {
       github: "https://github.com/mozenjii/RuleWeaver",
       docs: "https://github.com/mozenjii/RuleWeaver/blob/main/docs/01_PROJECT_STATUS.md",
@@ -142,15 +141,6 @@ export const projects: Project[] = [
       { label: "Technical specification", value: "44 files", evidence: "Private technical pack" },
       { label: "Machine-readable artifacts", value: "344", evidence: "Extracted from the technical pack" }
     ],
-    media: [
-      {
-        type: "image",
-        src: "/assets/projects/priora/priora-placeholder.svg",
-        alt: "Priora workflow placeholder visual",
-        caption: "Product screenshots are not published — the specification packs are private.",
-        status: "pending"
-      }
-    ],
     links: {
       github: "https://github.com/mozenjii/Priora-Prototype",
       resumeRelevant: true
@@ -204,7 +194,6 @@ export const projects: Project[] = [
     ],
     /* Deliberately none: the live site is linked directly, which is better
        evidence than a screenshot of it. */
-    media: [],
     links: {
       liveDemo: "https://epoches.co",
       resumeRelevant: true
@@ -253,15 +242,6 @@ export const projects: Project[] = [
       { label: "Languages", value: "TypeScript, JavaScript, T-SQL", evidence: "GitHub language breakdown" },
       { label: "Data model", value: "founders + funding + verification", evidence: "Schema in the repository" }
     ],
-    media: [
-      {
-        type: "image",
-        src: "/assets/projects/sids/sids-placeholder.svg",
-        alt: "Due-diligence system placeholder visual",
-        caption: "ERD capture pending.",
-        status: "pending"
-      }
-    ],
     links: {
       github: "https://github.com/mozenjii/Startup-Intelligence-Due-Diligence-System",
       resumeRelevant: true
@@ -303,15 +283,6 @@ export const projects: Project[] = [
       { label: "Execution", value: "multiprocessing worker pool", evidence: "Bounded queues, configurable parallelism" },
       { label: "Telemetry", value: "observer-based live dashboard", evidence: "Output layer, decoupled from core" }
     ],
-    media: [
-      {
-        type: "image",
-        src: "/assets/projects/streamscope/streamscope-placeholder.svg",
-        alt: "StreamScope pipeline placeholder visual",
-        caption: "Live dashboard capture pending.",
-        status: "pending"
-      }
-    ],
     links: {
       github: "https://github.com/mozenjii/StreamScope",
       resumeRelevant: true
@@ -350,15 +321,6 @@ export const projects: Project[] = [
       { label: "Outputs", value: "Console + charts", evidence: "Output plugin implementations" },
       { label: "Architecture", value: "DIP-compliant core", evidence: "typing.Protocol contracts" }
     ],
-    media: [
-      {
-        type: "image",
-        src: "/assets/projects/gdp/gdp-placeholder.svg",
-        alt: "GDP analytics pipeline placeholder visual",
-        caption: "Chart output capture pending.",
-        status: "pending"
-      }
-    ],
     links: { github: "https://github.com/mozenjii/GDP-Analyzis-System" },
     nextVersion: ["Add a sample output gallery", "Add test coverage notes"],
     limits: ["A coursework-scale system. The architecture is the point, not the dataset."]
@@ -386,7 +348,6 @@ export const projects: Project[] = [
     hardPart: "Getting verification state right across four different entry paths without leaving accounts half-created.",
     tradeoff: "Scoped to authentication and identity rather than spreading thin across the whole product.",
     proofMetrics: [{ label: "Auth methods", value: "4", evidence: "Google, Facebook, OTP, email" }],
-    media: [],
     links: {},
     nextVersion: [],
     limits: [

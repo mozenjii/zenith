@@ -31,15 +31,23 @@ export const profile = {
   subheadline:
     "A compiler for legal rules, a prior-authorization control plane, a shipped AI-services company, and a math paper. Each one below links to the artifact behind it.",
 
-  /**
-   * Portrait crops of the one supplied photograph, both centerd on the subject:
-   *  - `portrait`      3:4, head through the crossed arms - hero
-   *  - `portraitSquare` 1:1, head and shoulders - sidebar tile
-   * This is the only photograph of him in the repository. Re-crop from the
-   * original rather than generating a substitute.
-   */
-  portrait: "/assets/profile/portrait.jpg",
-  portraitSquare: "/assets/profile/portrait-square.jpg",
+  /*
+    There is deliberately no portrait path here any more.
+
+    Two crops of the one supplied photograph live at
+    `public/assets/profile/portrait.jpg` (3:4, head through the crossed arms)
+    and `portrait-square.jpg` (1:1, head and shoulders). Those are *sources*:
+    `scripts/build-images.mjs` derives every rendered variant from them and
+    records the result in `config/images.json`, which is what
+    `components/ui/Portrait.tsx` reads.
+
+    A path here would let a component point an <img> straight at the 285KB
+    original and quietly bypass all of that, which is exactly what the pipeline
+    exists to prevent. Use `<Portrait base="portrait" />` instead.
+
+    This is the only photograph of him in the repository. Re-crop from the
+    original rather than generating a substitute.
+  */
 
   email: "mhbamdm@gmail.com",
   emailUniversity: "l240985@lhr.nu.edu.pk",

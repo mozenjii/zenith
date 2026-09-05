@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Download } from "lucide-react";
-import Image from "next/image";
 import { SiteFooter } from "@/components/navigation/SiteFooter";
 import { TopNav } from "@/components/navigation/TopNav";
+import { Portrait } from "@/components/ui/Portrait";
 import { Section } from "@/components/ui/Section";
 import { RootsSignatureBlock } from "@/components/visual/RootsSignature";
 import { pageModulus } from "@/components/visual/rootsOfUnity";
@@ -53,12 +53,11 @@ export default function AboutPage() {
 
             <div className="lg:col-span-4 lg:col-start-9">
               <div className="relative aspect-square w-full max-w-[300px] overflow-hidden rounded border border-[var(--line)]">
-                <Image
-                  src={profile.portraitSquare}
-                  alt={`${profile.name}`}
-                  fill
+                <Portrait
+                  base="portrait-square"
+                  alt={profile.name}
                   sizes="300px"
-                  className="portrait-framed object-cover"
+                  className="portrait-framed absolute inset-0 h-full w-full object-cover"
                 />
               </div>
 

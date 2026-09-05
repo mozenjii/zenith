@@ -27,6 +27,16 @@ function ring(radius: number, cx: number, cy: number) {
   });
 }
 
+/*
+  Required by `output: "export"`.
+
+  Next treats a metadata route as a route handler, and a route handler is
+  dynamic by default — so under a static export it refuses to build rather than
+  guess. Both of these are pure functions of data checked into the repository,
+  so declaring them static is a statement of fact, not a workaround.
+*/
+export const dynamic = "force-static";
+
 export default function Image() {
   const cx = 915;
   const cy = 315;

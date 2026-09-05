@@ -1,7 +1,7 @@
 import { ArrowRight, FileText } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { Portrait } from "@/components/ui/Portrait";
 import { RootsSignature } from "@/components/visual/RootsSignature";
 import { pageModulus } from "@/components/visual/rootsOfUnity";
 import { profile } from "@/data/profile";
@@ -47,11 +47,9 @@ export function Hero() {
             the theme tokens rather than inline here, because the two themes
             need different strengths — see `.portrait-wash`. */}
         <div className="portrait-wash absolute inset-0" aria-hidden />
-        <Image
-          src={profile.portrait}
+        <Portrait
+          base="portrait"
           alt=""
-          width={1200}
-          height={1600}
           priority
           sizes="60vw"
           className="portrait-grade portrait-feather relative h-full w-full object-cover object-top"
@@ -110,12 +108,12 @@ export function Hero() {
         {/* Mobile: the photograph in normal flow, since there is no side column
             to bleed into. The desktop plate above is hidden here. */}
         <div className="mt-12 lg:hidden">
-          <Image
-            src={profile.portrait}
+          <Portrait
+            base="portrait"
             alt={`${profile.name}, computer science undergraduate at ${profile.education.school}`}
-            width={1200}
-            height={1600}
-            sizes="90vw"
+            /* Capped at 420px by `max-w-[420px]`, so above that the image stops
+               growing and asking for 90vw would fetch a needlessly large file. */
+            sizes="(max-width: 468px) 100vw, 420px"
             className="portrait-framed mx-auto block aspect-[4/5] w-full max-w-[420px] rounded border border-[var(--line)] object-cover object-top"
           />
         </div>

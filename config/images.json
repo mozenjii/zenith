@@ -1,0 +1,43 @@
+{
+  "key": "201025e6ad1fb74b",
+  "images": {
+    "portrait": {
+      "widths": [
+        420,
+        640,
+        840,
+        1200
+      ],
+      "width": 1200,
+      "height": 1600
+    },
+    "portrait-square": {
+      "widths": [
+        300,
+        600
+      ],
+      "width": 600,
+      "height": 600
+    }
+  },
+  "files": [
+    "portrait-420.avif",
+    "portrait-420.webp",
+    "portrait-420.jpg",
+    "portrait-640.avif",
+    "portrait-640.webp",
+    "portrait-640.jpg",
+    "portrait-840.avif",
+    "portrait-840.webp",
+    "portrait-840.jpg",
+    "portrait-1200.avif",
+    "portrait-1200.webp",
+    "portrait-1200.jpg",
+    "portrait-square-300.avif",
+    "portrait-square-300.webp",
+    "portrait-square-300.jpg",
+    "portrait-square-600.avif",
+    "portrait-square-600.webp",
+    "portrait-square-600.jpg"
+  ]
+}

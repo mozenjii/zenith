@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { siteUrl } from "@/config/site";
 import { profile } from "@/data/profile";
 import "./globals.css";
 
@@ -43,7 +44,7 @@ const description =
   "Mohib Ahmad — computer science undergraduate, founder, and independent researcher. A rules-as-code compiler, a prior-authorization control plane, a shipped AI services company, and a preprint on maximum nullity in generalized Petersen graphs.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: `${profile.name} — Engineering and research`,
     template: `%s — ${profile.name}`

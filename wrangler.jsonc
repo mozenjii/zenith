@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "mohib-ahmad",
+  "compatibility_date": "2026-09-05",
+
+  /*
+    A static-asset Worker with no `main`: there is no Worker script at all, just
+    the exported site served from Cloudflare's edge. The site has no server-side
+    behavior to run (no route handlers, no middleware, no dynamic rendering), so
+    adding a runtime would mean paying cold starts and adapter-version coupling
+    to hand back HTML that already exists on disk.
+
+    `html_handling` is left at its default, "auto-trailing-slash", which is what
+    maps a request for /about onto the exported `about.html`.
+  */
+  "assets": {
+    "directory": "./out",
+    // Next writes 404.html; without this an unmatched path returns a bare
+    // Cloudflare 404 instead of the site's own not-found page.
+    "not_found_handling": "404-page"
+  }
+}

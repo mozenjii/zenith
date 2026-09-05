@@ -1,3 +1,23 @@
+> [!IMPORTANT]
+> **Superseded, kept as history. Do not build from these.**
+>
+> This set specifies the original "Bay Area signal map" product: a dark
+> neo-brutalist site organised around a map metaphor, with rotated stickers,
+> 2px black borders and 6px hard offsets. That system was replaced on
+> 2026-09-05, for a reason recorded in `DESIGN.md`: the site now has to carry a
+> pure-mathematics preprint, and those mannerisms fight it.
+>
+> **The current visual contract is [`DESIGN.md`](../DESIGN.md) at the
+> repository root.** Where these documents and `DESIGN.md` disagree, `DESIGN.md`
+> is right. Several of these describe things that no longer exist at all —
+> `06_MAP_SYSTEM_SPEC.md` specifies the map, `09_ASSET_INVENTORY.md` lists brand
+> assets that have been deleted, and `13_DATA_SCHEMA.md` predates the current
+> `data/` types.
+>
+> They are kept because the content strategy, the case-study template and the
+> source notes still hold, and because the reasoning behind the original build
+> is worth not throwing away.
+
 ---
 version: 1.0.0
 project: Bay Area Signal Map Portfolio

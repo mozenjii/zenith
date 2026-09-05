@@ -39,15 +39,6 @@ export interface ProofMetric {
   evidence?: string;
 }
 
-export interface MediaAsset {
-  type: "image" | "video" | "gif" | "diagram";
-  src: string;
-  alt: string;
-  caption?: string;
-  poster?: string;
-  status?: "available" | "pending";
-}
-
 export interface ProjectLinks {
   github?: string;
   liveDemo?: string;
@@ -76,7 +67,6 @@ export interface Project {
   hardPart: string;
   tradeoff: string;
   proofMetrics: ProofMetric[];
-  media: MediaAsset[];
   links: ProjectLinks;
   nextVersion: string[];
   /**

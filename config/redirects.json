@@ -1,0 +1,10 @@
+[
+  { "from": "/projects", "to": "/work" },
+  {
+    "from": "/projects/priora-ai-prior-authorization",
+    "to": "/work/priora-prior-authorization-control-plane"
+  },
+  { "from": "/projects/:slug", "to": "/work/:slug" },
+  { "from": "/resume", "to": "/about" },
+  { "from": "/memo", "to": "/about" }
+]
