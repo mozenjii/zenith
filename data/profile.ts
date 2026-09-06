@@ -100,8 +100,21 @@ export const profile = {
       reads as inflation on the site rather than as two different measures.
     */
     gpa: "3.79 / 4.0",
-    /* The CS degree began Fall 2025, not 2024. See educationLadder. */
-    period: "Aug 2025 - Aug 2028",
+    /*
+      One degree, Aug 2024 to Aug 2028.
+
+      He started at FAST Islamabad and moved to FAST Lahore, changing from
+      Software Engineering to Computer Science. The Islamabad coursework was
+      exempted at Lahore rather than repeated, so it counts toward this degree.
+      Same university throughout, and the qualification he will hold is a
+      single BS Computer Science from FAST NUCES Lahore - which is how his own
+      resume states it, and his own record to describe.
+
+      Only the CGPA reset on the move, which is why 3.79 is computed over the
+      Lahore record. That detail is in the brain; it does not belong on a
+      portfolio, and 3.98 is still not the number (see below).
+    */
+    period: "Aug 2024 - Aug 2028",
     classOf: "2028",
     /** Standing as of the current academic year, in US terms. */
     standing: "Junior"
@@ -129,32 +142,11 @@ export const educationLadder: EducationStage[] = [
   {
     stage: "BS Computer Science",
     institution: "FAST NUCES Lahore",
-    period: "Aug 2025 - Aug 2028",
+    period: "Aug 2024 - Aug 2028",
     result: "3.79 / 4.0 CGPA",
     usEquivalent:
-      "Four-year bachelor's degree. FAST NUCES is Pakistan's top-ranked computer science university. CGPA over 36 credits.",
+      "Four-year bachelor's degree. FAST NUCES is Pakistan's top-ranked computer science university.",
     distinctions: ["Silver Medalist", "Dean's List, twice"]
-  },
-  /*
-    The degree change, stated rather than hidden.
-
-    This row used to be absent, and the CS row above claimed a start of
-    Aug 2024 - which quietly absorbed this year and made the ladder look
-    continuous. Two separate transcripts exist and both are part of the record,
-    so a recruiter who requests them finds this either way. Better it is here.
-
-    Zero credits transferred, so the CGPA genuinely reset; that is why 3.79 is
-    over 36 credits rather than over the whole time at FAST. Same university
-    throughout, different campus and different degree.
-  */
-  {
-    stage: "BS Software Engineering",
-    institution: "FAST NUCES Islamabad",
-    period: "Aug 2024 - Aug 2025",
-    result: "3.21 / 4.0, 33 credits",
-    usEquivalent:
-      "Changed degree to Computer Science at the Lahore campus in Fall 2025. No credits transferred, so the CS record begins fresh.",
-    distinctions: []
   },
   {
     stage: "A-Levels — Computer Science, Physics, Math",
