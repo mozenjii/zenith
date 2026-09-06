@@ -36,7 +36,7 @@ export default function AboutPage() {
               <h1 className="display text-[clamp(2.5rem,6vw,4rem)]">About</h1>
               <p className="prose-measure mt-6 text-[1.125rem] leading-8 text-[var(--text-dim)]">
                 I am a {profile.education.standing.toLowerCase()}-year computer science undergraduate at FAST NUCES
-                Lahore, class of {profile.education.classOf}, with a {profile.education.gpa} GPA. Currently{" "}
+                Lahore, class of {profile.education.classOf}, with a {profile.education.gpa} CGPA. Currently{" "}
                 {profile.current.role.toLowerCase()} at the {profile.current.org}. Before that I founded an
                 AI services company and co-founded a B2B SaaS startup.
               </p>

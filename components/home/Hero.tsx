@@ -143,7 +143,7 @@ export function Hero() {
             <dd className="mono mt-1.5 text-[0.9375rem]">{profile.education.classOf}</dd>
           </div>
           <div>
-            <dt className="label-sm text-[var(--text-mute)]">GPA</dt>
+            <dt className="label-sm text-[var(--text-mute)]">CGPA</dt>
             <dd className="mono mt-1.5 text-[0.9375rem] text-[var(--yellow)]">{profile.education.gpa}</dd>
           </div>
           <div>

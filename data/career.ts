@@ -78,7 +78,7 @@ export const roles: Role[] = [
     metrics: [
       "10+ campus leads mobilized",
       "5 networking events, 250+ attendees",
-      "12 blockchain experts secured for keynotes",
+      "12 industry experts secured for keynotes",
       "35% lift in event registrations"
     ]
   },
