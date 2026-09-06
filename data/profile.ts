@@ -57,12 +57,23 @@ export const profile = {
   linkedinHandle: "mohibhhhh",
   orcid: "0009-0001-8170-8179",
   orcidUrl: "https://orcid.org/0009-0001-8170-8179",
-  resumePath: "/assets/resume/primary_resume_mohib.pdf",
+  /*
+    Filename matters here: this is served with `download`, so whatever it is
+    called is what lands in the recruiter's Downloads folder. The previous
+    `primary_resume_mohib.pdf` was an internal working name.
+  */
+  resumePath: "/assets/resume/mohib-ahmad-resume.pdf",
 
   /**
-   * Deliberately omitted: the phone number that appears on the resume. It
-   * carries the most exposure and the least value of anything in the set, and
-   * a public web page is not a resume handed to one recruiter.
+   * No phone number in this object, and that is still deliberate for the
+   * structured data: nothing on a rendered page should carry it, because a
+   * page is scraped and a resume is handed to one person.
+   *
+   * The PDF above is a different matter. It does carry the number, verbatim,
+   * because Mohib chose that on 2026-09-06 with the trade stated: the site is
+   * public, so the PDF is indexable and harvestable, and taking it down later
+   * does not un-scrape it. That is his call to make and it is made. Do not
+   * quietly redact the file on a later pass.
    */
 
   current: {
