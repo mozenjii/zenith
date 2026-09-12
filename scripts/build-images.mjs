@@ -44,15 +44,17 @@ const MANIFEST = "config/images.json";
  * generic ladder. Generating sizes nothing requests is wasted bytes in the
  * repository and a longer build for no reader benefit.
  *
- *   portrait  desktop plate at 60vw, and the mobile block capped at 420px.
- *             840 = 420 at 2x. 1200 is the source width and the ceiling;
- *             upscaling past it would invent detail.
- *   square    /about renders it at 300px. 600 = 300 at 2x.
+ *   portrait  the desktop plate, the mobile block capped at 420px, and the
+ *             /about tile at 300px. 420 and 640 cover the last two at 1x and
+ *             2x; 840 and 1200 cover the plate. 1200 is the source width and
+ *             the ceiling, since upscaling past it would invent detail.
+ *
+ * There was a second source, `portrait-square.jpg`, for a square tile on
+ * /about. That tile is now 3:4 and reuses this photograph — a square window on
+ * a 3:4 original crops to head-and-shoulders no matter where you put it, which
+ * is what made it the most closed-in image on the site.
  */
-const SOURCES = [
-  { file: "portrait.jpg", widths: [420, 640, 840, 1200] },
-  { file: "portrait-square.jpg", widths: [300, 600] }
-];
+const SOURCES = [{ file: "portrait.jpg", widths: [420, 640, 840, 1200] }];
 
 /*
   Quality per format, not one number for all three. These are not interchangeable

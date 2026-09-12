@@ -52,9 +52,20 @@ export default function AboutPage() {
             </div>
 
             <div className="lg:col-span-4 lg:col-start-9">
-              <div className="relative aspect-square w-full max-w-[300px] overflow-hidden rounded border border-[var(--line)]">
+              {/*
+                3:4, the photograph's own ratio, so the frame crops nothing.
+
+                This was a square tile fed by a separate `portrait-square.jpg`,
+                and it was the most closed-in image on the site: a square window
+                on a 3:4 photograph puts the subject's head at roughly 46% of
+                the frame whatever you do with it, because the source has no
+                more width to give. Re-cropping could not fix that. Changing the
+                frame could, so the square source is gone and this renders the
+                same photograph as the home page.
+              */}
+              <div className="relative aspect-[3/4] w-full max-w-[300px] overflow-hidden rounded border border-[var(--line)]">
                 <Portrait
-                  base="portrait-square"
+                  base="portrait"
                   alt={profile.name}
                   sizes="300px"
                   className="portrait-framed absolute inset-0 h-full w-full object-cover"

@@ -34,12 +34,17 @@ export const profile = {
   /*
     There is deliberately no portrait path here any more.
 
-    Two crops of the one supplied photograph live at
-    `public/assets/profile/portrait.jpg` (3:4, head through the crossed arms)
-    and `portrait-square.jpg` (1:1, head and shoulders). Those are *sources*:
-    `scripts/build-images.mjs` derives every rendered variant from them and
-    records the result in `config/images.json`, which is what
-    `components/ui/Portrait.tsx` reads.
+    The one supplied photograph lives at
+    `public/assets/profile/portrait.jpg` (3:4, head through the crossed arms).
+    That is a *source*: `scripts/build-images.mjs` derives every rendered
+    variant from it and records the result in `config/images.json`, which is
+    what `components/ui/Portrait.tsx` reads.
+
+    A 1:1 `portrait-square.jpg` also used to sit here, for a square tile on
+    /about. It is gone: any square window on a 3:4 frame lands on head and
+    shoulders, which made it the most closed-in image on the site. That tile is
+    3:4 now and shares this photograph. Recover the file from git history if a
+    genuinely square context ever appears.
 
     A path here would let a component point an <img> straight at the 285KB
     original and quietly bypass all of that, which is exactly what the pipeline

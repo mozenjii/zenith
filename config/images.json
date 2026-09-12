@@ -1,5 +1,5 @@
 {
-  "key": "201025e6ad1fb74b",
+  "key": "6b4dff59b1cd8fcc",
   "images": {
     "portrait": {
       "widths": [
@@ -10,14 +10,6 @@
       ],
       "width": 1200,
       "height": 1600
-    },
-    "portrait-square": {
-      "widths": [
-        300,
-        600
-      ],
-      "width": 600,
-      "height": 600
     }
   },
   "files": [
@@ -32,12 +24,6 @@
     "portrait-840.jpg",
     "portrait-1200.avif",
     "portrait-1200.webp",
-    "portrait-1200.jpg",
-    "portrait-square-300.avif",
-    "portrait-square-300.webp",
-    "portrait-square-300.jpg",
-    "portrait-square-600.avif",
-    "portrait-square-600.webp",
-    "portrait-square-600.jpg"
+    "portrait-1200.jpg"
   ]
 }

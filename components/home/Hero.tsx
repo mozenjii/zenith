@@ -41,8 +41,20 @@ export function Hero() {
         is transparent by design, so a tighter box would eat into the subject
         instead of the background, and the right-hand falloff lands off-screen
         rather than showing as a seam.
+
+        A flex row rather than a block, so the photograph keeps its own 3:4
+        shape instead of being stretched to the plate's. The plate is as tall
+        as the section and as wide as 60vw, and those two are set by unrelated
+        things — at 1280x800 that made a box of ratio 0.945, and `object-cover`
+        answered by discarding the bottom fifth of the photograph and scaling
+        what was left to the full plate width. The subject's head came out at
+        43% of the frame: a crop tight enough to read as confrontational.
+        `items-stretch` fixes the height, `w-auto` lets the intrinsic ratio set
+        the width, and `justify-end` keeps the result pinned to the bleed edge.
+        Nothing is cropped now, and the mask is percentage-based so it simply
+        re-fits the narrower box.
       */}
-      <div className="pointer-events-none absolute inset-y-0 -right-[5%] hidden w-[60%] lg:block">
+      <div className="pointer-events-none absolute inset-y-0 -right-[5%] hidden w-[60%] items-stretch justify-end lg:flex">
         {/* A low warm wash behind the photo. Defined in globals.css against
             the theme tokens rather than inline here, because the two themes
             need different strengths — see `.portrait-wash`. */}
@@ -54,7 +66,7 @@ export function Hero() {
           /*
             The `1px` branch is not a typo.
 
-            This plate is inside a `hidden lg:block` wrapper, so below 1024px it
+            This plate is inside a `hidden lg:flex` wrapper, so below 1024px it
             is `display: none` — but a hidden <img> is still fetched, and this
             one is `priority`, so a phone was eagerly downloading the 85KB
             full-width AVIF for something it never shows. `sizes` describes the
@@ -63,10 +75,14 @@ export function Hero() {
             smallest candidate: 16KB instead of 85KB, with no JavaScript and no
             second element.
 
-            Above the breakpoint it is the LCP element and takes 60vw for real.
+            Above the breakpoint it is the LCP element. Its width now derives
+            from the section height rather than from the viewport width, so
+            50vw is an upper bound rather than an exact figure — it measures
+            about 47vw at 1280x800. Erring high costs one step up the ladder;
+            erring low ships a visibly soft LCP image.
           */
-          sizes="(min-width: 1024px) 60vw, 1px"
-          className="portrait-grade portrait-feather relative h-full w-full object-cover object-top"
+          sizes="(min-width: 1024px) 50vw, 1px"
+          className="portrait-grade portrait-feather relative h-full w-auto max-w-full object-cover object-top"
         />
       </div>
 
@@ -130,7 +146,10 @@ export function Hero() {
                The `lg` branch is the mirror of the plate above: this block is
                `lg:hidden`, so from 1024px up its rendered width is nothing. */
             sizes="(min-width: 1024px) 1px, (max-width: 468px) 100vw, 420px"
-            className="portrait-framed mx-auto block aspect-[4/5] w-full max-w-[420px] rounded border border-[var(--line)] object-cover object-top"
+            /* 3:4 is the photograph's own ratio, so this frame crops nothing.
+               It was 4:5, which cut a further 6% off the bottom to no purpose
+               — there is no layout here that needs a particular height. */
+            className="portrait-framed mx-auto block aspect-[3/4] w-full max-w-[420px] rounded border border-[var(--line)] object-cover object-top"
           />
         </div>
       </div>
