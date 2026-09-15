@@ -41,7 +41,7 @@ const mono = Geist_Mono({
 });
 
 const description =
-  "Mohib Ahmad — computer science undergraduate, founder, and independent researcher. A rules-as-code compiler, a prior-authorization control plane, a shipped AI services company, and a preprint on maximum nullity in generalized Petersen graphs.";
+  "Mohib Ahmad — computer science undergraduate, founder, and independent researcher. A rules-as-code compiler, a prior-authorization control plane, a shipped AI services company, and a preprint on weighted certificates over real and finite fields for generalized Petersen graphs.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

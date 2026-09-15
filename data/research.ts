@@ -3,7 +3,7 @@
  *
  * ── The status rule, which must not be relaxed ──────────────────────────────
  *
- * The manuscript below is a PREPRINT. As of 2026-09-05 it is:
+ * The manuscript below is a PREPRINT. As of 2026-09-15 it is:
  *
  *   - complete, and internally verified (18/18 symbolic checks pass)
  *   - packaged for arXiv (math.CO) and for Linear Algebra and its Applications
@@ -12,15 +12,35 @@
  *   - NOT submitted, NOT peer-reviewed, NOT accepted anywhere
  *   - absent from the author's ORCID record, which registers zero works
  *
- * Every one of those was checked directly: the ORCID iD against the public
- * ORCID API, the arXiv absence against the arXiv API, and the submission state
- * against the author's own sign-off checklist, whose boxes are all unticked.
+ * The ORCID iD was re-checked against the public ORCID API on 2026-09-15 and
+ * still returns zero works. The submission state was re-checked against the
+ * author's own sign-off checklist, whose boxes are all still unticked, and
+ * against the revised package's own README, which speaks of arXiv posting
+ * conditionally ("If the preprint has been posted").
  *
  * So `status` is "preprint" and the venue field does not exist. Do not add a
  * venue, a DOI, an arXiv id, a citation count, or the words "published" or
  * "peer-reviewed" until there is a URL that proves it. An unverifiable venue on
  * a portfolio is worse than no venue at all, and a referee is exactly the kind
  * of reader who will check.
+ *
+ * ── The scope rule, which is new in the 2026-09-08 revision ─────────────────
+ *
+ * The revision adds finite-field certificates, and they prove strictly less
+ * than the real ones. Over the reals the paper proves M(P(n,3)) = Z(P(n,3)) = 8.
+ * Over finite fields it proves Z(P(Lr,3)) = 8 ONLY - reduction modulo a prime
+ * can lower rank, so a finite-field kernel need not lift to a real one. The
+ * paper says so in its own words: "these certificates do not assert real
+ * maximum nullity eight."
+ *
+ * That is why two different coverage figures appear below and must never be
+ * merged into one number:
+ *
+ *   1/6      = 0.1667  real families {10, 24, 28, 42}, where M = Z = 8
+ *   46.31%           the union including finite-field families, where Z = 8
+ *
+ * Writing "the paper covers 46% of cases" without the qualifier would be
+ * claiming maximum nullity on families where only zero forcing is proved.
  */
 
 export type Preprint = {
@@ -47,35 +67,46 @@ export type Preprint = {
 };
 
 export const preprint: Preprint = {
-  id: "weighted-fourier-certificates",
+  id: "weighted-certificates-real-and-finite-fields",
   title:
-    "Weighted Fourier certificates for maximum nullity in generalized Petersen graphs: rational classification and arithmetic obstructions",
+    "Weighted certificates over real and finite fields for generalized Petersen graphs",
   authors: "Mohib Ahmad",
-  date: "2026-08-31",
+  date: "2026-09-08",
   status: "preprint",
   preparedFor: ["arXiv (math.CO)", "Linear Algebra and its Applications"],
   abstract:
-    "For a graph G, the maximum nullity M(G) of the real symmetric matrices described by G satisfies M(G) ≤ Z(G), where Z(G) is the zero forcing number. Alameda et al. proved Z(P(n,k)) ≤ 2k+2 for generalized Petersen graphs, and Krishnan recently corrected the published claim for P(n,3) by showing Z(P(12,3)) = 7 and conjecturing Z(P(n,3)) = 8 for every n ≥ 13. We construct weighted block-circulant matrices in S(P(n,k)) and diagonalize them by the discrete Fourier transform. For P(n,3) the singularity condition is encoded by an eighth-degree reciprocal polynomial. Explicit root-of-unity certificates prove M(P(n,3)) = Z(P(n,3)) = 8 whenever 10, 24, 28 or 42 divides n; these indices have natural density 1/6. We then determine the rational part of this construction completely, and derive arithmetic obstructions from the Lam–Leung theorem on vanishing sums of roots of unity.",
+    "We study the corrected conjecture Z(P(n,3))=8 for n≥ 13 using weighted graph-pattern matrices. Over the reals, Fourier certificates prove M(P(n,3))=Z(P(n,3))=8 whenever 10, 24, 28, or 42 divides n. We retain the complete six-triple rational classification and strengthen the arithmetic obstruction: no prime-power level supports nullity eight in the real constant-weight symmetric class. An exact modular sieve followed by cyclotomic verification gives a complete classification through level 420. Changing the coefficient field yields additional zero-forcing families. A polynomial greatest-common-divisor formula computes the nullity of a five-parameter cyclic matrix over any field, including when the characteristic divides the graph order. Explicit finite-field certificates prove Z(P(Lr,3))=8 for all r≥ 1 and L in {16,17,18,19,21,22,23,25,26,27,29,31}. In particular, a binary degree-eight divisor of z^17−1 proves Z(P(17r,3))=8. These certificates do not assert real maximum nullity eight. For the signed real specialization, we determine every root-of-unity zero and prove that Q_k(z)=z^(2k+2)+z^(2k)+z^(k+1)+z^2+1 is squarefree cyclotomic exactly when k=2,3,7. Finally, a first-force anchoring lemma reduces exhaustive seven-vertex zero-forcing search to O(n^4) candidate sets and verifies the conjecture for every 13≤ n≤ 64. The uniform conjecture remains open.",
   plainSummary:
-    "There is a graph invariant that is hard to pin down, and a conjecture that it equals 8 for a whole infinite family of graphs. This paper proves the conjecture for a sixth of all cases by building matrices whose singularity is decided by where eight roots of a polynomial land on the unit circle. It then proves that this particular technique cannot finish the job — an arithmetic obstruction rules out the remaining cases. Establishing the limit of your own method is the less common half.",
+    "There is a graph invariant that is hard to pin down, and a conjecture that it equals 8 for a whole infinite family of graphs. Working over the real numbers, this paper proves the conjecture outright for a sixth of all cases, by building matrices whose singularity is decided by where eight roots of a polynomial land on the unit circle — and then proves that this technique cannot finish the job, because an arithmetic obstruction rules out the rest. The revision changes the number system. Over finite fields the same construction reaches many more cases, raising the proved share to 46%, but it buys that reach at a price the paper states rather than hides: on the new families it settles the zero forcing number and not the maximum nullity. Establishing the limits of your own method, twice, is the less common half.",
   msc: "Primary 05C50; Secondary 15A03, 15A18, 11R18",
   keywords: [
     "zero forcing number",
     "maximum nullity",
     "generalized Petersen graph",
+    "graph-pattern matrix",
     "block-circulant matrix",
     "Fourier diagonalization",
-    "cyclotomic polynomial",
-    "vanishing sums of roots of unity"
+    "finite fields",
+    "cyclotomic polynomial"
   ],
-  pages: 13,
-  pdf: "/assets/research/weighted-fourier-certificates-petersen.pdf",
+  pages: 19,
+  pdf: "/assets/research/weighted-certificates-petersen-real-and-finite-fields.pdf",
   supplement: "/assets/research/petersen-supplementary-material.zip",
   results: [
     {
       claim: "M(P(n,3)) = Z(P(n,3)) = 8 when 10, 24, 28 or 42 divides n",
       detail:
-        "Explicit root-of-unity certificates, covering a set of indices of natural density 1/6. This settles Krishnan's conjecture on that set."
+        "Explicit root-of-unity certificates over the reals, covering a set of indices of natural density 1/6. This settles Krishnan’s conjecture on that set, and it is the only result here that reaches maximum nullity."
+    },
+    {
+      claim: "Over finite fields, Z(P(Lr,3)) = 8 for twelve further base levels",
+      detail:
+        "A greatest-common-divisor formula gives the nullity of the five-parameter cyclic matrix over any field, including when the characteristic divides the graph order. Certificates follow for L in 16, 17, 18, 19, 21, 22, 23, 25, 26, 27, 29, 31 and every multiple. A binary degree-eight divisor of z¹⁷ − 1 handles L = 17."
+    },
+    {
+      claim: "The two families together cover 46.31% of all indices",
+      detail:
+        "Natural density 6933083/14969435 by inclusion–exclusion over the fifteen base levels, after dropping 42 as a multiple of 21. On this union the zero forcing number is 8; on the real sixth of it, the maximum nullity is 8 as well."
     },
     {
       claim: "The rational part of the construction is classified completely",
@@ -83,20 +114,26 @@ export const preprint: Preprint = {
         "If the three weight parameters are rational and all eight roots are distinct roots of unity, exactly six parameter triples occur, with minimal moduli 10, 24, 40 and 42. The modulus-28 certificate is therefore genuinely algebraic rather than rational."
     },
     {
-      claim: "A Lam–Leung obstruction bounds the whole certificate class",
+      claim: "A Lam–Leung obstruction bounds the whole real certificate class",
       detail:
-        "Any certificate at level n forces 27 into the numerical semigroup generated by the prime divisors of n. Consequently no admissible prime level supports a constant-weight certificate, and among levels n = 2p with p an odd prime only n = 10 occurs."
+        "Any certificate at level n forces 27 into the numerical semigroup generated by the prime divisors of n. No prime-power level supports nullity eight in the real constant-weight symmetric class, and an exact modular sieve with cyclotomic verification classifies every level through 420."
     },
     {
-      claim: "A signed construction extends the result to general step size",
+      claim: "The signed construction is squarefree cyclotomic exactly for k = 2, 3, 7",
       detail:
-        "If Q_k(z) = z^(2k+2) + z^(2k) + z^(k+1) + z^2 + 1 divides z^L − 1, then M(P(Lr,k)) = Z(P(Lr,k)) = 2k+2 for every r ≥ 1. In particular M(P(120r,7)) = Z(P(120r,7)) = 16."
+        "Every root-of-unity zero of Q_k(z) = z^(2k+2) + z^(2k) + z^(k+1) + z² + 1 is determined, and those three values of k are the only ones. For k = 7 this gives M(P(120r,7)) = Z(P(120r,7)) = 16."
+    },
+    {
+      claim: "Exhaustive search verifies the conjecture for every 13 ≤ n ≤ 64",
+      detail:
+        "A first-force anchoring lemma cuts the seven-vertex search to O(n⁴) candidate sets. No seven-vertex forcing set exists in that range, and eight consecutive outer vertices force in every case tested."
     }
   ],
   limits: [
-    "The certificate class cannot by itself settle the conjecture for all n ≥ 13. The paper proves this rather than leaving it open.",
-    "The computer-assisted search up to modulus 420 is reported as computational evidence, not a nonexistence proof.",
-    "The uniform lower bound Z(P(n,3)) ≥ 8 remains open outside the covered families."
+    "The finite-field certificates prove the zero forcing number only. Reduction modulo a prime can lower rank, so a finite-field kernel need not lift to a real one, and maximum nullity is not claimed on those families.",
+    "The real certificate class cannot by itself settle the conjecture for all n ≥ 13. The paper proves this rather than leaving it open.",
+    "The exhaustive computation establishes the range 13 ≤ n ≤ 64 and nothing beyond it. The uniform conjecture Z(P(n,3)) = 8 for every n ≥ 13 remains open.",
+    "The paper does not establish priority over all existing literature, and no part of it has been peer-reviewed."
   ]
 };
 
@@ -129,7 +166,16 @@ export const rationalCertificates: Certificate[] = [
   { factors: "Φ₆·Φ₇", p: 0, q: 1, tau: -1, L: 42, orders: [6, 7] }
 ];
 
-/** The divisibility families the certificates actually cover. */
+/**
+ * The divisibility families the REAL certificates cover, where the paper
+ * proves maximum nullity and zero forcing together.
+ *
+ * These four are the site's whole visual identity, so a word on why the
+ * revision did not disturb them: it added finite-field families, and those
+ * prove a strictly weaker statement (see the scope rule at the top of this
+ * file). The four real moduli, the six rational triples below, and the density
+ * 1/6 are all unchanged from the original manuscript.
+ */
 export const coveredModuli = [10, 24, 28, 42] as const;
 
 export type Modulus = (typeof coveredModuli)[number];
@@ -157,20 +203,78 @@ export const modulusColors: Record<Modulus, { token: string; note: string }> = {
 };
 
 /**
+ * The finite-field base levels, added by the 2026-09-08 revision.
+ *
+ * Each row is a certificate over the stated characteristic proving
+ * Z(P(Lr,3)) = 8 for every r >= 1. `characteristic` is the field; the
+ * validator checks the divisibility identity by exact polynomial division,
+ * then confirms the graph pattern and the modular rank directly at n = L and
+ * n = 2L.
+ *
+ * `inseparable` marks the rows where the characteristic divides the graph
+ * order, which is the case the ordinary Fourier argument cannot reach at all
+ * and the reason the gcd formula is stated for any field. Verbatim from
+ * `extensions/finite_field_validation.json`.
+ *
+ * L = 38 appears in that file and deliberately NOT here: 38 is a multiple of
+ * 19, so it adds no index the L = 19 row does not already cover. The paper
+ * drops it from the coverage computation for the same reason it drops the
+ * real modulus 42, which is a multiple of 21.
+ *
+ * These prove ZERO FORCING ONLY. Do not merge this list into `coveredModuli`.
+ */
+export const finiteFieldFamilies: Array<{ L: number; characteristic: number; inseparable: boolean }> = [
+  { L: 16, characteristic: 17, inseparable: false },
+  { L: 17, characteristic: 2, inseparable: true },
+  { L: 18, characteristic: 19, inseparable: false },
+  { L: 19, characteristic: 229, inseparable: false },
+  { L: 21, characteristic: 41, inseparable: false },
+  { L: 22, characteristic: 23, inseparable: false },
+  { L: 23, characteristic: 461, inseparable: false },
+  { L: 25, characteristic: 499, inseparable: false },
+  { L: 26, characteristic: 5, inseparable: true },
+  { L: 27, characteristic: 271, inseparable: false },
+  { L: 29, characteristic: 233, inseparable: false },
+  { L: 31, characteristic: 743, inseparable: false }
+];
+
+/**
+ * The two coverage figures, kept apart on purpose.
+ *
+ * `real` is the density of the four families where M = Z = 8. `combined` is
+ * the density of the union with the finite-field families, where only Z = 8 is
+ * proved. Both fractions are exact and both were recomputed here by
+ * inclusion-exclusion rather than copied: the combined one is
+ * 6933083/14969435, matching the corollary in the manuscript and
+ * `extensions/coverage.json`.
+ */
+export const coverage = {
+  real: { fraction: "1/6", percent: 16.67, proves: "M = Z = 8" },
+  combined: { fraction: "6933083/14969435", percent: 46.31, proves: "Z = 8" }
+} as const;
+
+/**
  * Verification evidence shipped with the paper. Numbers only where a recorded
  * output file backs them; each corresponds to a file in the supplement.
  */
 export const verification = [
   { label: "Symbolic checks", value: "18 / 18 pass", source: "verify_paper.py" },
+  { label: "Original proofs retained", value: "17 / 17 verbatim", source: "integration_validation.json" },
   { label: "Rational classification", value: "14 candidates → 6 valid", source: "classify_rational.py" },
-  { label: "Exhaustive search", value: "no new modulus ≤ 420", source: "search_moduli.py" },
-  { label: "Zero forcing, exact", value: "7 ≤ n ≤ 27", source: "zero_forcing.c" }
+  { label: "Exact sieve", value: "complete through level 420", source: "exact_search.py" },
+  { label: "Finite-field certificates", value: "12 levels, ranks confirmed", source: "verify_finite_fields.py" },
+  { label: "Zero forcing, exhaustive", value: "13 ≤ n ≤ 64, no 7-set", source: "direct_zf_anchor.c" }
 ];
 
 /**
  * Independently computed zero forcing numbers for P(n,3), from the exhaustive
  * C search in the supplement. Included because it reproduces Krishnan's
  * boundary counterexample Z(P(12,3)) = 7 rather than assuming it.
+ *
+ * The table stops at 20 for display, not for lack of data. The original
+ * program covers 7 <= n <= 27; the anchored rerun added by the revision covers
+ * 13 <= n <= 64 and is reported in `verification` instead, because 52 more
+ * tiles of the same number 8 would say less than one line of prose does.
  */
 export const zeroForcingTable: Array<{ n: number; z: number }> = [
   { n: 7, z: 6 },

@@ -31,8 +31,11 @@ export function ResearchBand() {
               Preprint · not yet submitted
             </p>
 
+            {/* From the data, not typed here. This heading held the previous
+                title for three days after the manuscript was revised, which is
+                exactly the drift a hardcoded string invites. */}
             <h2 id="research-title" className="display-title mt-5 text-[clamp(1.375rem,2.6vw,1.875rem)]">
-              Weighted Fourier certificates for maximum nullity in generalized Petersen graphs
+              {preprint.title}
             </h2>
 
             <p className="prose-measure mt-6 text-[1.0625rem] leading-8 text-[var(--text-dim)]">

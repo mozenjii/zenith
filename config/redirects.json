@@ -1,10 +1,26 @@
 [
-  { "from": "/projects", "to": "/work" },
+  {
+    "from": "/assets/research/weighted-fourier-certificates-petersen.pdf",
+    "to": "/assets/research/weighted-certificates-petersen-real-and-finite-fields.pdf"
+  },
+  {
+    "from": "/projects",
+    "to": "/work"
+  },
   {
     "from": "/projects/priora-ai-prior-authorization",
     "to": "/work/priora-prior-authorization-control-plane"
   },
-  { "from": "/projects/:slug", "to": "/work/:slug" },
-  { "from": "/resume", "to": "/about" },
-  { "from": "/memo", "to": "/about" }
+  {
+    "from": "/projects/:slug",
+    "to": "/work/:slug"
+  },
+  {
+    "from": "/resume",
+    "to": "/about"
+  },
+  {
+    "from": "/memo",
+    "to": "/about"
+  }
 ]

@@ -9,7 +9,9 @@ import { pageModulus } from "@/components/visual/rootsOfUnity";
 import { profile } from "@/data/profile";
 import { projects } from "@/data/projects";
 import {
+  coverage,
   coveredModuli,
+  finiteFieldFamilies,
   modulusColors,
   preprint,
   rationalCertificates,
@@ -21,7 +23,7 @@ import {
 export const metadata: Metadata = {
   title: "Research",
   description:
-    "A preprint on weighted Fourier certificates for maximum nullity in generalized Petersen graphs, with the verification code that ships alongside it."
+    "A preprint on weighted certificates over real and finite fields for generalized Petersen graphs, with the verification code that ships alongside it."
 };
 
 export default function ResearchPage() {
@@ -121,7 +123,7 @@ export default function ResearchPage() {
         <Section
           id="results"
           title="What it proves"
-          context="Four results. The third and fourth are the ones worth reading twice — one bounds the method itself, and the other generalizes it."
+          context="Seven results. Two are worth reading twice, and both are about the boundary of the method rather than its reach — one bounds the real construction, the other says plainly what changing the field does not buy."
         >
           <ol className="grid gap-5 lg:grid-cols-2">
             {preprint.results.map((result, index) => (
@@ -148,7 +150,7 @@ export default function ResearchPage() {
         <Section
           id="families"
           title="The four families"
-          context="The result holds whenever n is divisible by one of these four numbers, and together they have natural density 1/6. Each mark below is that modulus's roots of unity, with the certificate's eight roots picked out where they actually sit."
+          context="Over the reals the result holds whenever n is divisible by one of these four numbers, and together they have natural density 1/6. These are the families where both maximum nullity and zero forcing are settled. Each mark below is that modulus's roots of unity, with the certificate's eight roots picked out where they actually sit."
         >
           <div className="grid gap-x-10 gap-y-9 sm:grid-cols-2 xl:grid-cols-4">
             {coveredModuli.map((modulus) => (
@@ -245,6 +247,89 @@ export default function ResearchPage() {
           </p>
         </Section>
 
+        {/*
+          The revision's headline, and the one section on this site that must
+          not borrow the palette.
+
+          Red, yellow, cyan and violet each mean one real modulus, where the
+          paper proves maximum nullity AND zero forcing. These twelve levels
+          prove zero forcing only. Colouring them would say, in the site's own
+          established vocabulary, something the paper explicitly declines to
+          claim — so this section is monochrome, and the difference in
+          treatment is the argument.
+        */}
+        <Section
+          id="finite-fields"
+          title="Changing the field"
+          context="The revision drops the requirement that the matrix entries be real. Over a finite field the same construction reaches twelve further base levels — at a price, stated below rather than buried."
+        >
+          <div className="grid gap-10 lg:grid-cols-12">
+            <div className="lg:col-span-7">
+              <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3" role="list">
+                {finiteFieldFamilies.map((family) => (
+                  <li key={family.L} className="panel flex flex-col px-3 py-3">
+                    <span className="mono text-[1.0625rem] text-[var(--text)]">
+                      L = {family.L}
+                    </span>
+                    <span className="label-sm mt-1 text-[var(--text-mute)]">
+                      char {family.characteristic}
+                    </span>
+                    {family.inseparable ? (
+                      <span className="label-sm mt-1 text-[var(--warm)]">inseparable</span>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+              <p className="prose-measure mt-7 text-[0.9375rem] leading-8 text-[var(--text-dim)]">
+                Each level certifies every multiple, so{" "}
+                <code className="math">Z(P(Lr,3)) = 8</code> for all{" "}
+                <code className="math">r ≥ 1</code>. The two marked rows are the cases where the
+                characteristic divides the graph order — exactly the situation the ordinary Fourier
+                argument cannot reach, and the reason the nullity is computed by a polynomial gcd
+                that is stated for any field. <code className="math">L = 17</code> is the neatest of
+                them: a degree-eight divisor of <code className="math">z¹⁷ − 1</code> over{" "}
+                <code className="math">𝔽₂</code>.
+              </p>
+            </div>
+
+            <div className="lg:col-span-4 lg:col-start-9">
+              {/*
+                Two coverage figures, side by side, because the only dishonest
+                way to present this result is as one number.
+              */}
+              <p className="label text-[var(--text-dim)]">What each field buys</p>
+              <dl className="mt-5 grid gap-5">
+                <div className="border-b border-[var(--line)] pb-5">
+                  <dt className="label-sm text-[var(--text-mute)]">Real certificates</dt>
+                  <dd className="mono mt-1 text-lg text-[var(--red)]">
+                    {coverage.real.percent}% · {coverage.real.proves}
+                  </dd>
+                  <dd className="label-sm mt-1 text-[var(--text-mute)]">
+                    density {coverage.real.fraction}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="label-sm text-[var(--text-mute)]">Union with finite fields</dt>
+                  <dd className="mono mt-1 text-lg text-[var(--text)]">
+                    {coverage.combined.percent}% · {coverage.combined.proves}
+                  </dd>
+                  <dd className="label-sm mt-1 text-[var(--text-mute)]">
+                    density {coverage.combined.fraction}
+                  </dd>
+                </div>
+              </dl>
+
+              <div className="panel mt-7 border-l-2 border-l-[var(--warm)] p-5">
+                <p className="text-[0.9375rem] leading-7 text-[var(--text-dim)]">
+                  The wider families settle the zero forcing number, not the maximum nullity.
+                  Reduction modulo a prime can lower rank, so a finite-field kernel need not lift to
+                  a real one. The paper states this itself and this page does not round it away.
+                </p>
+              </div>
+            </div>
+          </div>
+        </Section>
+
         <Section
           id="computation"
           title="Computed independently"
@@ -273,8 +358,11 @@ export default function ResearchPage() {
               </div>
               <p className="prose-measure mt-6 text-[0.9375rem] leading-8 text-[var(--text-dim)]">
                 <code className="math">Z(P(12,3)) = 7</code> is the counterexample that broke the
-                previously published claim, and it falls out of this computation independently. Values
-                continue at 8 through <code className="math">n = 27</code>.
+                previously published claim, and it falls out of this computation independently. The
+                original program continues at 8 through <code className="math">n = 27</code>. The
+                revision adds a first-force anchoring lemma that cuts the seven-vertex search to
+                O(n⁴) candidate sets, and with it the range runs unbroken to{" "}
+                <code className="math">n = 64</code> with no seven-vertex forcing set anywhere in it.
               </p>
             </div>
 
