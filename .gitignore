@@ -36,6 +36,10 @@ coverage/
 /web design/
 /info/primary_resume_mohib.pdf
 
+# Local authoring notes and editor settings.
+/.claude/
+/docs/
+
 # OS cruft
 .DS_Store
 Thumbs.db
